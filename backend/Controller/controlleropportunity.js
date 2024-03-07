@@ -1,5 +1,4 @@
 const opportunities = require('../Models/opportunities')
-const Opportunities=require('../Models/opportunities')
 
 
 
