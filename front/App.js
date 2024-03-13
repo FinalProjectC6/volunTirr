@@ -29,7 +29,7 @@ export default function App() {
     return null;
   }
   return (
-<<<<<<< HEAD
+
     <NavigationContainer>
       <StatusBar />
       <Stack.Navigator initialRouteName="Chat">
@@ -58,13 +58,7 @@ export default function App() {
     </NavigationContainer>
   );
 }
-=======
-    <View style={styles.container}>
-      <Text>yo  </Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -93,4 +87,4 @@ const styles = StyleSheet.create({
 
 
 
->>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
+
