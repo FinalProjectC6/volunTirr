@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize('thesis', 'root', 'eyajouini', {
+=======
+const { Sequelize, DataTypes, BelongsTo } = require('sequelize');
+const config = require('../config.json')
+const sequelize = new Sequelize('thesis', config.user, config.password, {
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
   host: 'localhost',
   dialect: 'mysql',
 });
@@ -16,7 +22,7 @@ const Skills = sequelize.define('Skills', {
     allowNull: true
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
@@ -55,7 +61,7 @@ const Providers = sequelize.define('Providers', {
     allowNull: true
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
@@ -102,7 +108,7 @@ const Seekers = sequelize.define('Seekers', {
     allowNull: true
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
@@ -117,7 +123,7 @@ const Rateseeker = sequelize.define('Rateseeker', {
     allowNull: true
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
@@ -128,7 +134,7 @@ const Chat = sequelize.define('Chat', {
     autoIncrement: true
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
@@ -162,7 +168,29 @@ const Messages = sequelize.define(
       defaultValue: false,
     },
   },
+<<<<<<< HEAD
   { freezeTableName: true, timestamps: false }
+=======
+  content: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  timestamp: {
+    type: DataTypes.DATE(3),
+    allowNull: false
+  },
+  videopublicid: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  videourl: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  }
+},
+  { freezeTableName: true, timestamps: false }
+
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
 );
 
 const Opportunities = sequelize.define('Opportunities', {
@@ -228,7 +256,7 @@ const Opportunities = sequelize.define('Opportunities', {
     allowNull: true
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 const Audio = sequelize.define(
@@ -268,15 +296,23 @@ const Packages = sequelize.define('Packages', {
   validity: {
     type: DataTypes.DATEONLY,
     allowNull: false
+  }
+},
+  { freezeTableName: true, timestamps: false }
+
+);
+
+const Features = sequelize.define("Features", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
-  features: {
+  name: {
     type: DataTypes.TEXT,
     allowNull: false
   }
-},
-{ freezeTableName: true, timestamps: false }
-
-);
+})
 
 const PackagesHasProviders = sequelize.define('PackagesHasProviders', {
   id: {
@@ -284,12 +320,16 @@ const PackagesHasProviders = sequelize.define('PackagesHasProviders', {
     primaryKey: true,
     autoIncrement: true
   },
-  actve: {
+  active: {
     type: DataTypes.BOOLEAN,
     allowNull: false
+  },
+  date: {
+    type: DataTypes.DATE,
+    defaultValue: new Date()
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
@@ -308,7 +348,7 @@ const Payment = sequelize.define('Payment', {
     allowNull: false
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
@@ -327,7 +367,7 @@ const Ratereview = sequelize.define('Ratereview', {
     allowNull: true
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
@@ -338,67 +378,90 @@ const OpportunitiesHasSeekers = sequelize.define('OpportunitiesHasSeekers', {
     defaultValue: 'pending'
   }
 },
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
 
 );
 
 const OpportunitiesHasSkills = sequelize.define('OpportunitiesHasSkills', {},
-{ freezeTableName: true, timestamps: false }
-
+  { freezeTableName: true, timestamps: false }
 );
 
 const SeekersHasSkills = sequelize.define('SeekersHasSkills', {},
-{ freezeTableName: true, timestamps: false }
+  { freezeTableName: true, timestamps: false }
+
+);
+const PackageHasFeatures = sequelize.define('PackageHasFeatures', {
+
+},
+  { freezeTableName: true, timestamps: false }
 
 );
 
-Providers.hasMany(Rateseeker, { foreignKey: 'providers_id', onDelete: 'CASCADE' });
-Seekers.hasMany(Rateseeker, { foreignKey: 'seekers_id', onDelete: 'CASCADE' });
+Providers.belongsToMany(Seekers, { through: "Rateseeker", onDelete: 'CASCADE' });
+Seekers.belongsToMany(Providers, { through: "Rateseeker", onDelete: 'CASCADE' });
 
+<<<<<<< HEAD
 
 Chat.hasMany(Messages, { onDelete: 'CASCADE' });
 Messages.belongsTo(Chat)
 
 
+=======
+Providers.hasMany(Chat, { onDelete: 'CASCADE' });
+Chat.belongsTo(Providers)
 
-Providers.hasMany(Opportunities, { foreignKey: 'providers_id', onDelete: 'CASCADE' });
+Seekers.hasMany(Chat, { onDelete: 'CASCADE' });
+Chat.belongsTo(Seekers)
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
 
-Opportunities.belongsToMany(Skills, { through: 'OpportunitiesHasSkills', foreignKey: 'opportunities_id', onDelete: 'CASCADE' });
-Skills.belongsToMany(Opportunities, { through: 'OpportunitiesHasSkills', foreignKey: 'skills_id', onDelete: 'CASCADE' });
+Chat.hasMany(Messages, { onDelete: 'CASCADE' });
+Messages.belongsTo(Chat)
 
-Seekers.belongsToMany(Skills, { through: 'SeekersHasSkills', foreignKey: 'seekers_id', onDelete: 'CASCADE' });
-Skills.belongsToMany(Seekers, { through: 'SeekersHasSkills', foreignKey: 'skills_id', onDelete: 'CASCADE' });
+Providers.hasMany(Opportunities, { onDelete: 'CASCADE' });
+Opportunities.belongsTo(Providers)
 
-Opportunities.belongsToMany(Seekers, { through: 'OpportunitiesHasSeekers', foreignKey: 'opportunities_id', onDelete: 'CASCADE' });
-Seekers.belongsToMany(Opportunities, { through: 'OpportunitiesHasSeekers', foreignKey: 'seekers_id', onDelete: 'CASCADE' });
 
-Packages.belongsToMany(Providers, { through: 'PackagesHasProviders', foreignKey: 'packages_id', onDelete: 'CASCADE' });
-Providers.belongsToMany(Packages, { through: 'PackagesHasProviders', foreignKey: 'providers_id', onDelete: 'CASCADE' });
+
+Skills.belongsToMany(Seekers, { through: 'SeekersHasSkills', onDelete: 'CASCADE' });
+Seekers.belongsToMany(Skills, { through: 'SeekersHasSkills', onDelete: 'CASCADE' });
+
+Packages.belongsToMany(Features, { through: 'PackageHasFeatures', onDelete: 'CASCADE' });
+Features.belongsToMany(Packages, { through: 'PackageHasFeatures', onDelete: 'CASCADE' });
+
+Packages.belongsToMany(Providers, { through: 'PackagesHasProviders', onDelete: 'CASCADE' });
+Providers.belongsToMany(Packages, { through: 'PackagesHasProviders', onDelete: 'CASCADE' });
 
 // Define one-to-one relationship between Payment and PackagesHasProviders
-PackagesHasProviders.hasOne(Payment, { foreignKey: 'packages_has_providers_id', onDelete: 'CASCADE' });
-Payment.belongsTo(PackagesHasProviders, { foreignKey: 'packages_has_providers_id' });
+PackagesHasProviders.hasOne(Payment, { onDelete: 'CASCADE' });
+// Payment.belongsTo(PackagesHasProviders, { foreignKey: 'packages_has_providers_id' });
 
-Ratereview.belongsTo(Opportunities, { foreignKey: 'opportunities_id', onDelete: 'CASCADE' });
+
+Opportunities.hasMany(Ratereview, { onDelete: 'CASCADE' });
+Ratereview.belongsTo(Opportunities, { onDelete: 'CASCADE' });
+
+Seekers.hasMany(Ratereview, { onDelete: 'CASCADE' });
 Ratereview.belongsTo(Seekers, { foreignKey: 'seekers_id', onDelete: 'CASCADE' });
 
-Rateseeker.belongsTo(Providers, { foreignKey: 'providers_id', onDelete: 'CASCADE' });
-Rateseeker.belongsTo(Seekers, { foreignKey: 'seekers_id', onDelete: 'CASCADE' });
+Skills.belongsToMany(Opportunities, { through: OpportunitiesHasSkills, onDelete: 'CASCADE' });
+Opportunities.belongsToMany(Skills, { through: OpportunitiesHasSkills, onDelete: 'CASCADE' });
 
+<<<<<<< HEAD
 
 Seekers.hasMany(Chat, { onDelete: "CASCADE" });
 Chat.belongsTo(Seekers);
 
+=======
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
 
-sequelize.sync({alter:false})
+sequelize.sync({ alter: true })
   .then(() => {
     console.log('All models were synchronized successfully.');
   })
   .catch((error) => {
     console.error('Unable to synchronize the models:', error);
   });
-
 // Export models
+<<<<<<< HEAD
 module.exports={
   Providers:Providers,
   Seekers:Seekers,
@@ -415,4 +478,23 @@ module.exports={
   Opportunities:Opportunities,
   Rateseeker:Rateseeker,
   Audio:Audio
+=======
+module.exports = {
+  Providers,
+  Seekers,
+  Skills,
+  OpportunitiesHasSeekers,
+  OpportunitiesHasSkills,
+  SeekersHasSkills,
+  Ratereview,
+  Payment,
+  PackagesHasProviders,
+  Packages,
+  Messages,
+  Chat,
+  Opportunities,
+  Rateseeker,
+  PackageHasFeatures,
+  Features
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
 };
