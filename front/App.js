@@ -1,3 +1,10 @@
+
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import HomePage from './yessine-components/homepage.jsx';
+import NavBar from './yessine-components/nav';
+
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Chat from "./screens/Chat";
@@ -29,7 +36,7 @@ export default function App() {
     return null;
   }
   return (
-<<<<<<< HEAD
+
     <NavigationContainer>
       <StatusBar />
       <Stack.Navigator initialRouteName="Chat">
@@ -58,13 +65,8 @@ export default function App() {
     </NavigationContainer>
   );
 }
-=======
-    <View style={styles.container}>
-      <Text>yo  </Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+
+   
 
 const styles = StyleSheet.create({
   container: {
@@ -93,4 +95,3 @@ const styles = StyleSheet.create({
 
 
 
->>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
