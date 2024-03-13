@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('thesis', 'root', 'root', {
+const sequelize = new Sequelize('thesis', 'root', 'eyajouini', {
   host: 'localhost',
   dialect: 'mysql',
 });
@@ -132,31 +132,37 @@ const Chat = sequelize.define('Chat', {
 
 );
 
-const Messages = sequelize.define('Messages', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+const Messages = sequelize.define(
+  "Messages",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    timestamp: {
+      type: DataTypes.DATE(3),
+      allowNull: false,
+    },
+    videopublicid: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    videourl: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    isProvider: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
-  timestamp: {
-    type: DataTypes.DATE(3),
-    allowNull: false
-  },
-  videopublicid: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  },
-  videourl: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  }
-},
-{ freezeTableName: true, timestamps: false }
-
+  { freezeTableName: true, timestamps: false }
 );
 
 const Opportunities = sequelize.define('Opportunities', {
@@ -224,6 +230,21 @@ const Opportunities = sequelize.define('Opportunities', {
 },
 { freezeTableName: true, timestamps: false }
 
+);
+const Audio = sequelize.define(
+  "audio",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    data: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  { freezeTableName: true, timestamps: false }
 );
 
 const Packages = sequelize.define('Packages', {
@@ -334,10 +355,11 @@ const SeekersHasSkills = sequelize.define('SeekersHasSkills', {},
 Providers.hasMany(Rateseeker, { foreignKey: 'providers_id', onDelete: 'CASCADE' });
 Seekers.hasMany(Rateseeker, { foreignKey: 'seekers_id', onDelete: 'CASCADE' });
 
-Providers.hasMany(Chat, { foreignKey: 'providers_id', onDelete: 'CASCADE' });
-Seekers.hasMany(Chat, { foreignKey: 'seekers_id', onDelete: 'CASCADE' });
 
-Chat.hasMany(Messages, { foreignKey: 'chat_id', onDelete: 'CASCADE' });
+Chat.hasMany(Messages, { onDelete: 'CASCADE' });
+Messages.belongsTo(Chat)
+
+
 
 Providers.hasMany(Opportunities, { foreignKey: 'providers_id', onDelete: 'CASCADE' });
 
@@ -363,7 +385,10 @@ Ratereview.belongsTo(Seekers, { foreignKey: 'seekers_id', onDelete: 'CASCADE' })
 Rateseeker.belongsTo(Providers, { foreignKey: 'providers_id', onDelete: 'CASCADE' });
 Rateseeker.belongsTo(Seekers, { foreignKey: 'seekers_id', onDelete: 'CASCADE' });
 
-Messages.belongsTo(Chat, { foreignKey: 'chat_id', onDelete: 'CASCADE' });
+
+Seekers.hasMany(Chat, { onDelete: "CASCADE" });
+Chat.belongsTo(Seekers);
+
 
 sequelize.sync({alter:false})
   .then(() => {
@@ -388,5 +413,6 @@ module.exports={
   Messages:Messages,
   Chat:Chat,
   Opportunities:Opportunities,
-  Rateseeker:Rateseeker
+  Rateseeker:Rateseeker,
+  Audio:Audio
 };
