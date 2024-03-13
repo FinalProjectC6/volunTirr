@@ -1,6 +1,12 @@
+<<<<<<< HEAD
+const { Sequelize, DataTypes } = require('sequelize');
+
+const sequelize = new Sequelize('thesis', 'root', 'eyajouini', {
+=======
 const { Sequelize, DataTypes, BelongsTo } = require('sequelize');
 const config = require('../config.json')
 const sequelize = new Sequelize('thesis', config.user, config.password, {
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
   host: 'localhost',
   dialect: 'mysql',
 });
@@ -132,12 +138,39 @@ const Chat = sequelize.define('Chat', {
 
 );
 
-const Messages = sequelize.define('Messages', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+const Messages = sequelize.define(
+  "Messages",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    timestamp: {
+      type: DataTypes.DATE(3),
+      allowNull: false,
+    },
+    videopublicid: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    videourl: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    isProvider: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
+<<<<<<< HEAD
+  { freezeTableName: true, timestamps: false }
+=======
   content: {
     type: DataTypes.TEXT,
     allowNull: false
@@ -157,6 +190,7 @@ const Messages = sequelize.define('Messages', {
 },
   { freezeTableName: true, timestamps: false }
 
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
 );
 
 const Opportunities = sequelize.define('Opportunities', {
@@ -224,6 +258,21 @@ const Opportunities = sequelize.define('Opportunities', {
 },
   { freezeTableName: true, timestamps: false }
 
+);
+const Audio = sequelize.define(
+  "audio",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    data: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  { freezeTableName: true, timestamps: false }
 );
 
 const Packages = sequelize.define('Packages', {
@@ -351,11 +400,19 @@ const PackageHasFeatures = sequelize.define('PackageHasFeatures', {
 Providers.belongsToMany(Seekers, { through: "Rateseeker", onDelete: 'CASCADE' });
 Seekers.belongsToMany(Providers, { through: "Rateseeker", onDelete: 'CASCADE' });
 
+<<<<<<< HEAD
+
+Chat.hasMany(Messages, { onDelete: 'CASCADE' });
+Messages.belongsTo(Chat)
+
+
+=======
 Providers.hasMany(Chat, { onDelete: 'CASCADE' });
 Chat.belongsTo(Providers)
 
 Seekers.hasMany(Chat, { onDelete: 'CASCADE' });
 Chat.belongsTo(Seekers)
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
 
 Chat.hasMany(Messages, { onDelete: 'CASCADE' });
 Messages.belongsTo(Chat)
@@ -388,6 +445,13 @@ Ratereview.belongsTo(Seekers, { foreignKey: 'seekers_id', onDelete: 'CASCADE' })
 Skills.belongsToMany(Opportunities, { through: OpportunitiesHasSkills, onDelete: 'CASCADE' });
 Opportunities.belongsToMany(Skills, { through: OpportunitiesHasSkills, onDelete: 'CASCADE' });
 
+<<<<<<< HEAD
+
+Seekers.hasMany(Chat, { onDelete: "CASCADE" });
+Chat.belongsTo(Seekers);
+
+=======
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
 
 sequelize.sync({ alter: true })
   .then(() => {
@@ -397,6 +461,24 @@ sequelize.sync({ alter: true })
     console.error('Unable to synchronize the models:', error);
   });
 // Export models
+<<<<<<< HEAD
+module.exports={
+  Providers:Providers,
+  Seekers:Seekers,
+  Skills:Skills,
+  OpportunitiesHasSeekers:OpportunitiesHasSeekers,
+  OpportunitiesHasSkills:OpportunitiesHasSkills,
+  SeekersHasSkills:SeekersHasSkills,
+  Ratereview:Ratereview,
+  Payment:Payment,
+  PackagesHasProviders:PackagesHasProviders,
+  Packages:Packages,
+  Messages:Messages,
+  Chat:Chat,
+  Opportunities:Opportunities,
+  Rateseeker:Rateseeker,
+  Audio:Audio
+=======
 module.exports = {
   Providers,
   Seekers,
@@ -414,4 +496,5 @@ module.exports = {
   Rateseeker,
   PackageHasFeatures,
   Features
+>>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
 };
