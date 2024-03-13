@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes, BelongsTo } = require('sequelize');
-const config = require('../config.json')
-const sequelize = new Sequelize('thesis', config.user, config.password, {
+const sequelize = new Sequelize('thesis', "yessine", "yessine147", {
   host: 'localhost',
   dialect: 'mysql',
 });
