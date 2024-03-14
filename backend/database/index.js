@@ -1,8 +1,4 @@
 
-
-
-
-
 const { Sequelize, DataTypes, BelongsTo } = require('sequelize');
 const config = require('../config.json')
 const sequelize = new Sequelize('thesis', config.user, config.password, {
@@ -441,4 +437,5 @@ module.exports = {
   Rateseeker,
   PackageHasFeatures,
   Features
+
 };
