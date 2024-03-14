@@ -35,6 +35,17 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Landing from './LogSing/Landing.js';
+import sign from './LogSing/sign.js';
+import Login from './LogSing/Login.js';
+import Getstarted from './LogSing/Getstarted.js'
+import Forgpsw from './LogSing/Forgpsw.js';
+const Stack = createNativeStackNavigator();
+
+function App() {
   return (
 
     <NavigationContainer>
