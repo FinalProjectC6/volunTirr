@@ -5,6 +5,7 @@ const routeprovider=require('./Routes/routesprovider')
 const routeseeker=require('./Routes/routeseeker')
 const routeropportunity=require('./Routes/routesopp')
 const routerpackage=require('./Routes/routepacakges')
+const routerauth =require('./Routes/routerauth')
 
 
 
@@ -16,7 +17,7 @@ app.use(express.urlencoded({extended:true}))
 
 
 
-
+app.use('/auth',routerauth)
 app.use('/provider',routeprovider)
 app.use('/seeker',routeseeker)
 app.use('/opp',routeropportunity)
