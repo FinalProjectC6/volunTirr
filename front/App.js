@@ -14,8 +14,16 @@ import Map from "./screens/Map";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Landing from './LogSing/Landing.js';
+import sign from './LogSing/sign.js';
+import Login from './LogSing/Login.js';
+import Getstarted from './LogSing/Getstarted.js'
+import Forgpsw from './LogSing/Forgpsw.js';
 const Stack = createNativeStackNavigator();
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -35,20 +43,22 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Landing from './LogSing/Landing.js';
-import sign from './LogSing/sign.js';
-import Login from './LogSing/Login.js';
-import Getstarted from './LogSing/Getstarted.js'
-import Forgpsw from './LogSing/Forgpsw.js';
-const Stack = createNativeStackNavigator();
+
 
 function App() {
   return (
 
     <NavigationContainer>
+         <Stack.Navigator>
+        <Stack.Screen 
+        name="Landing" 
+        component={Landing}/>
+        <Stack.Screen name="sign" component={sign} options={{headerShown:false}} />
+        <Stack.Screen name="Login" component={Login} options={{headerShown:false}} />
+        <Stack.Screen name="Getstarted" component={Getstarted} options={{headerShown:false}} />
+        <Stack.Screen name="Forgpsw" component={Forgpsw} options={{headerShown:false}} />
+
+      </Stack.Navigator>
       <StatusBar />
       <Stack.Navigator initialRouteName="Chat">
         <Stack.Screen
@@ -91,11 +101,7 @@ const styles = StyleSheet.create({
 
 
 
-
-
-
-
-
+}
 
 
 
