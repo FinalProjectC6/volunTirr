@@ -1,6 +1,12 @@
+
+
+
+
+
 const { Sequelize, DataTypes, BelongsTo } = require('sequelize');
 const config = require('../config.json')
 const sequelize = new Sequelize('thesis', config.user, config.password, {
+
   host: 'localhost',
   dialect: 'mysql',
 });
@@ -132,31 +138,37 @@ const Chat = sequelize.define('Chat', {
 
 );
 
-const Messages = sequelize.define('Messages', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
+const Messages = sequelize.define(
+  "Messages",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    timestamp: {
+      type: DataTypes.DATE(3),
+      allowNull: false,
+    },
+    videopublicid: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    videourl: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    isProvider: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
-  timestamp: {
-    type: DataTypes.DATE(3),
-    allowNull: false
-  },
-  videopublicid: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  },
-  videourl: {
-    type: DataTypes.TEXT,
-    allowNull: true
-  }
-},
   { freezeTableName: true, timestamps: false }
-
 );
 
 const Opportunities = sequelize.define('Opportunities', {
@@ -224,6 +236,21 @@ const Opportunities = sequelize.define('Opportunities', {
 },
   { freezeTableName: true, timestamps: false }
 
+);
+const Audio = sequelize.define(
+  "audio",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    data: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+  },
+  { freezeTableName: true, timestamps: false }
 );
 
 const Packages = sequelize.define('Packages', {
