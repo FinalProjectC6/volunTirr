@@ -1,5 +1,4 @@
 
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import HomePage from './yessine-components/homepage.jsx';
 import NavBar from './yessine-components/nav';
@@ -68,6 +67,7 @@ function App() {
             headerShown: true,
           }}
         />
+        
         <Stack.Screen
           name="Conversation"
           component={Conversation}
@@ -81,7 +81,7 @@ function App() {
           options={{
             headerShown: false,
           }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
