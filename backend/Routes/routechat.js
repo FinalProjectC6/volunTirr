@@ -9,5 +9,3 @@ routerchat.get("/getallchats/:id/", controllerchat.getAllChats);
 routerchat.delete("/deletechat/:chatId", controllerchat.deleteChat);
 
 module.exports=routerchat
-
-
