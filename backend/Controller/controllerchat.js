@@ -1,5 +1,5 @@
 const chat = require('../Models/chat')
-<<<<<<< HEAD
+
 const {getAllChats} = require('../Models/chat')
 
 
@@ -34,7 +34,7 @@ module.exports = {
     res.json("Chat deleted successfully");
   },
 };
-=======
+
 
 
 
@@ -42,4 +42,3 @@ module.exports={
 
 
 }
->>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e

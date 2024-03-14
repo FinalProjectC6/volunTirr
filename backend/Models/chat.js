@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const { where } = require('sequelize');
 
 const { Messages } = require("../database/index");
@@ -57,9 +56,6 @@ module.exports = {
     await chat.destroy();
   },
 };
-=======
-const {Chat} = require('../database/index')
-
 
 module.exports={
 getchat:async()=>{
@@ -67,4 +63,3 @@ getchat:async()=>{
 }
 
 }
->>>>>>> 328874534f957cdfce43f51ed0b974bf294f2a6e
