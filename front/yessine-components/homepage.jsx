@@ -25,7 +25,7 @@ export default function HomePage() {
       .then(data => setOpportunities(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-
+console.log(opportunities);
   const handleCategoryPress = (category) => {
     setActiveCategory(category);
   };
@@ -86,8 +86,7 @@ export default function HomePage() {
             </TouchableOpacity>
           </ScrollView>
         </View>
-        {/* Rest of your content */}
- 
+        
         {/* Title: Enchanting Tunisia */}
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Enchanting{' '}
@@ -208,10 +207,10 @@ const styles = StyleSheet.create({
     top: -30,
   },
   stickyy: {
-    backgroundColor: '#fff', // Adjust background color as needed
+    backgroundColor: '#fff', 
     position: 'sticky',
     top: 0,
-    zIndex: 1000, // ensure it's above other content
+    zIndex: 1000, 
   },
   welcomeMessage: {
     fontSize: 24,
@@ -379,8 +378,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     backgroundColor: '#fff',
-    elevation: 3, // Add elevation for shadow on Android
-    shadowColor: '#000', // Add shadow properties for iOS
+    elevation: 3,
+    shadowColor: '#000', 
     shadowOffset: {
       width: 0,
       height: 2,

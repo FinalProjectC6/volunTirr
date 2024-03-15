@@ -3,7 +3,24 @@ import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function NavBar() {
-  const [activeButton, setActiveButton] = useState('home');
+  const [activeButton, setActiveButton] = useState('');
+  const navigation = useNavigation();
+
+
+  const chat = () => {
+    navigation.navigate('Chat')
+   
+  };
+  const home = () => {
+    navigation.navigate('HomePage')
+   
+  };
+
+  const profileseeker = () => {
+    navigation.navigate('ProfileSeeker')
+  
+  };
+
 
   return (
     <View style={styles.container}>
@@ -25,7 +42,7 @@ export default function NavBar() {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'user' && styles.activeButton]}
-          onPress={() => setActiveButton('user')}>
+          onPress={profileseeker }>
           <AntDesign name="user" size={30} color={activeButton === 'user' ? '#2b5b9c' : '#87ceeb'} />
         </TouchableOpacity>
       </View>

@@ -27,7 +27,8 @@ import Map from "./screens/Map";
 import FilteredOpp from "./yessine-components/filtredopp.jsx";
 import HomePage from "./yessine-components/homepage.jsx";
 import NavBar from "./yessine-components/nav";
-
+import ProfileSeeker from "./yessine-components/profileseeker.jsx";
+import EditProfileSeeker from './yessine-components/editprofileseeker.jsx'
 
 const Stack = createNativeStackNavigator();
 
@@ -66,9 +67,13 @@ export default function App() {
             options={{ headerShown: false }}
           /> 
            <Stack.Screen
+          /> 
+           <Stack.Screen
             name="Getstarted"
             component={Getstarted}
             options={{ headerShown: false }}
+          /> 
+           <Stack.Screen
           /> 
            <Stack.Screen
             name="Forgpsw"
@@ -85,7 +90,7 @@ export default function App() {
             component={Conversation}
             options={{ headerShown: true }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Map"
             component={Map}
             options={{ headerShown: false }}
@@ -96,7 +101,16 @@ export default function App() {
             component={HomePage}
             options={{ headerShown: false }}
           />
-
+          <Stack.Screen
+            name="ProfileSeeker"
+            component={ProfileSeeker}
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen
+            name="EditProfileSeeker"
+            component={EditProfileSeeker}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
