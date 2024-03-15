@@ -27,7 +27,8 @@ import Map from "./screens/Map";
 import FilteredOpp from "./yessine-components/filtredopp.jsx";
 import HomePage from "./yessine-components/homepage.jsx";
 import NavBar from "./yessine-components/nav";
-
+import ProfileSeeker from "./yessine-components/profileseeker.jsx";
+import EditProfileSeeker from './yessine-components/editprofileseeker.jsx'
 
 const Stack = createNativeStackNavigator();
 
@@ -54,8 +55,8 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Landing" component={Landing} />
-          <Stack.Screen
+          {/* <Stack.Screen name="Landing" component={Landing} /> 
+           <Stack.Screen
             name="sign"
             component={sign}
             options={{ headerShown: false }}
@@ -64,17 +65,17 @@ export default function App() {
             name="Login"
             component={Login}
             options={{ headerShown: false }}
-          />
-          <Stack.Screen
+          /> 
+           <Stack.Screen
             name="Getstarted"
             component={Getstarted}
             options={{ headerShown: false }}
-          />
-          <Stack.Screen
+          /> 
+           <Stack.Screen
             name="Forgpsw"
             component={Forgpsw}
             options={{ headerShown: false }}
-            />
+            /> */}
            <Stack.Screen
             name="Chat"
             component={Chat}
@@ -85,18 +86,27 @@ export default function App() {
             component={Conversation}
             options={{ headerShown: true }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Map"
             component={Map}
             options={{ headerShown: false }}
-          />
+          /> */}
 
           <Stack.Screen
             name="HomePage"
             component={HomePage}
             options={{ headerShown: false }}
           />
-
+          <Stack.Screen
+            name="ProfileSeeker"
+            component={ProfileSeeker}
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen
+            name="EditProfileSeeker"
+            component={EditProfileSeeker}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
