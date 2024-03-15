@@ -25,6 +25,10 @@ const Log = () => {
     navigation.navigate('Forgpsw');
   };
 
+  const GoToHome = () => {
+    navigation.navigate("HomePage");
+  };
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={styles.container}
@@ -62,7 +66,7 @@ const Log = () => {
         <Text style={styles.alha} onPress={goToSignUp}  >dont have an acccout?</Text>
 
         <TouchableOpacity style={styles.LogButt}>
-          <Text style={styles.buttText}>Log in</Text>
+          <Text style={styles.buttText} onPress={GoToHome} >Log in</Text>
         </TouchableOpacity>
         <View style={styles.design2}></View>
       </View>

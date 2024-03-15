@@ -39,7 +39,7 @@ const Conversation = ({ route }) => {
     };
 
     try {
-      await fetch(`http://192.168.43.39:3000/chat/createmessage`, {
+      await fetch(`http://192.168.101.4:3000/chat/createmessage`, {
         method: "POST",
         body: JSON.stringify(messageBody),
         headers: {
@@ -61,7 +61,7 @@ const Conversation = ({ route }) => {
   };
 
   useEffect(() => {
-    fetch(`http://192.168.43.39:3000/chat/getallmessage/${ChatId}`)
+    fetch(`http://192.168.101.4:3000/chat/getallmessage/${ChatId}`)
       .then((result) => result.json())
       .then((result) => setMessages(result))
       .catch((err) => console.log(err));
@@ -104,14 +104,14 @@ const Conversation = ({ route }) => {
         console.log(audioBlob)
         const fr = new FileReader()
         fr.onloadend = async () =>
-          await fetch(`http://192.168.43.39:3000/chat/createaudio/11`, {
+          await fetch(`http://192.168.101.4:3000/chat/createaudio/11`, {
             method: "POST",
             body: fr.result,
           });
         fr.readAsDataURL(audioBlob)
 
         const base64Data = await fetch(
-          `http://192.168.43.39:3000/chat/getaudio/11`
+          `http://192.168.101.4:3000/chat/getaudio/11`
         ).then((res) => res.json());
         console.log(base64Data)
         const { sound } = await Audio.Sound.createAsync({ uri: base64Data.data })
