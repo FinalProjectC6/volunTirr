@@ -9,6 +9,7 @@ const routerpackage=require('./Routes/routepacakges')
  const { createServer } = require("node:http");
  const { Server } = require("socket.io");
  const { joinroom, sendMessage, exitroom } = require("./Controller/controllersocket");
+const routerauth =require('./Routes/routerauth')
 
 
 

@@ -1,9 +1,16 @@
-const { Opportunities } = require('../database/index');
+const { Opportunities, Ratereview } = require('../database/index');
 
 module.exports = {
     getallopportunities: () => {
-        return Opportunities.findAll();
+        return Opportunities.findAll({
+            include: [{
+                model: Ratereview,
+                attributes: ['rate',"review"] // Specify the attributes you want to include from the Ratereview model
+            }]
+        });
     },
+    
+    
     getoneopportunitybytitle: (title) => {
         return Opportunities.findOne({ where: { title: title } });
     },
