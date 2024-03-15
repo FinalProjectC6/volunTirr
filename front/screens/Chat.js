@@ -25,7 +25,7 @@ export default function Chat({ navigation }) {
 
   useEffect(() => {
     fetch(
-      `http://192.168.101.4:3000/chat/getallchats/${userId}${
+      `http://192.168.100.10:3000/chat/getallchats/${userId}${
         isProvider ? "?isProvider=true" : null
       }`
     )
@@ -42,7 +42,7 @@ export default function Chat({ navigation }) {
 
 
 const deleteChat = async (chatId) => {
-    await fetch(`http://192.168.101.4:3000/chat/deletechat/${chatId}`, {
+    await fetch(`http://192.168.100.10:3000/chat/deletechat/${chatId}`, {
       method: "DELETE",
     }).then(() => {
       const filteredChats = chats.filter((chat) => chat.id !== chatId);

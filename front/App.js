@@ -54,8 +54,8 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen name="Landing" component={Landing} /> */}
-          {/* <Stack.Screen
+          <Stack.Screen name="Landing" component={Landing} /> 
+           <Stack.Screen
             name="sign"
             component={sign}
             options={{ headerShown: false }}
@@ -64,18 +64,18 @@ export default function App() {
             name="Login"
             component={Login}
             options={{ headerShown: false }}
-          /> */}
-          {/* <Stack.Screen
+          /> 
+           <Stack.Screen
             name="Getstarted"
             component={Getstarted}
             options={{ headerShown: false }}
-          /> */}
-          {/* <Stack.Screen
+          /> 
+           <Stack.Screen
             name="Forgpsw"
             component={Forgpsw}
             options={{ headerShown: false }}
-            /> */}
-           {/* <Stack.Screen
+            /> 
+            <Stack.Screen
             name="Chat"
             component={Chat}
             options={{ headerShown: true }}
@@ -89,7 +89,7 @@ export default function App() {
             name="Map"
             component={Map}
             options={{ headerShown: false }}
-          /> */}
+          />
 
           <Stack.Screen
             name="HomePage"

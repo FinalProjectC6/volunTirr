@@ -20,7 +20,7 @@ export default function HomePage() {
   const [opportunities, setOpportunities] = useState([]);
 
   useEffect(() => {
-    fetch('http://192.168.43.75:3000/opp/getallopportunities')
+    fetch('http://192.168.100.10:3000/opp/getallopportunities')
       .then(response => response.json())
       .then(data => setOpportunities(data))
       .catch(error => console.error('Error fetching data:', error));
