@@ -32,6 +32,7 @@ const Providers = sequelize.define('Providers', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
+  
   email_address: {
     type: DataTypes.STRING(255),
     allowNull: false
