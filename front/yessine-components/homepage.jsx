@@ -20,12 +20,12 @@ export default function HomePage() {
   const [opportunities, setOpportunities] = useState([]);
 
   useEffect(() => {
-    fetch('http://192.168.43.75:3000/opp/getallopportunities')
+    fetch('http://192.168.100.12:3000/opp/getallopportunities')
       .then(response => response.json())
       .then(data => setOpportunities(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
-
+console.log(opportunities);
   const handleCategoryPress = (category) => {
     setActiveCategory(category);
   };
@@ -86,8 +86,7 @@ export default function HomePage() {
             </TouchableOpacity>
           </ScrollView>
         </View>
-        {/* Rest of your content */}
- 
+        
         {/* Title: Enchanting Tunisia */}
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Enchanting{' '}
@@ -123,7 +122,12 @@ export default function HomePage() {
               </TouchableOpacity>
               <View style={styles.opportunityDescription}>
                 <Text style={styles.opportunityTitle}>{opportunity.title}</Text>
-                {/* <Text style={styles.opportunityDescriptionText}>{opportunity.description}</Text> */}
+                {opportunity.Ratereviews.map((rate, rateIndex) => (
+                  <View key={rateIndex} style={styles.rateContainer}>
+                    <AntDesign name="star" size={16} color="#FFD700" />
+                    <Text style={styles.rate}>{rate.rate}</Text>
+                  </View>
+                ))}
               </View>
             </View>
           ))}
@@ -133,30 +137,30 @@ export default function HomePage() {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Explore the beauty of scenery</Text>
         </View>
+        <Image source={{ uri: 'https://media3.giphy.com/media/3og0ISzBpn0nNJE3Ac/200w.gif' }} style={styles.gif} />
 
         {/* Explore More Opportunities */}
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Explore More Opportunities</Text>
         </View>
-        <View horizontal style={styles.opportunitiesContainer}>
-  {opportunities.slice(8, 16).map((opportunity, index) => (
-    <View key={index} style={styles.opportunityPair}>
-      <View style={styles.opportunityCard}>
-        <Image source={{ uri: opportunity.image1 }} style={styles.opportunityImage} />
-        <TouchableOpacity onPress={() => handleLikePress(index + 8)} style={styles.opportunityLikeButton}>
-          <AntDesign name="hearto" size={20} style={styles.opportunityLikeIcon} />
-        </TouchableOpacity>
-        <View style={styles.opportunityCardContent}>
-          <Text style={styles.opportunityTitle}>{opportunity.title}</Text>
-          {/* <Text style={styles.opportunityDescriptionText}>{opportunity.description}</Text> */}
+        <View style={styles.opportunitiesContainer}>
+          <View style={styles.opportunityRow}>
+            {opportunities.slice(8, 16).map((opportunity, index) => (
+              <TouchableOpacity key={index} style={styles.opportunityCard}>
+                <Image source={{ uri: opportunity.image1 }} style={styles.opportunityImage} />
+                <View style={styles.opportunityCardContent}>
+                  <Text style={styles.opportunityTitle}>{opportunity.title}</Text>
+                  {opportunity.Ratereviews.map((rate, rateIndex) => (
+                    <View key={rateIndex} style={styles.rateContainer}>
+                      <AntDesign name="star" size={16} color="#FFD700" />
+                      <Text style={styles.rate}>{rate.rate}</Text>
+                    </View>
+                  ))}
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-      </View>
-      {/* Second opportunity */}
-      {/* Add another opportunityCard component here */}
-    </View>
-  ))}
-</View>
-
       </ScrollView>
       
       <NavBar />
@@ -165,11 +169,15 @@ export default function HomePage() {
 }
 
 const styles = StyleSheet.create({
- 
- 
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  gif: {
+    width: '100%',
+    height: 200,
+    marginTop: 20,
+    marginBottom: 20,
   },
   header: {
     flexDirection: 'row',
@@ -178,11 +186,9 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     justifyContent: 'flex-end',
   },
-  
   notificationButton: {
     marginRight: 20,
     marginTop:20
-
   },
   profilePicture: {
     width: 60,
@@ -201,10 +207,10 @@ const styles = StyleSheet.create({
     top: -30,
   },
   stickyy: {
-    backgroundColor: '#fff', // Adjust background color as needed
+    backgroundColor: '#fff', 
     position: 'sticky',
     top: 0,
-    zIndex: 1000, // ensure it's above other content
+    zIndex: 1000, 
   },
   welcomeMessage: {
     fontSize: 24,
@@ -228,6 +234,10 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 10,
     overflow: 'hidden',
+  },
+  rate:{
+    fontSize:16,
+    marginLeft:5
   },
   searchBar: {
     flex: 1,
@@ -287,8 +297,8 @@ const styles = StyleSheet.create({
     maxHeight: 150,
   },
   galleryImage: {
-    width: 120,
-    height: 120,
+    width: 220,
+    height: 220,
     borderRadius: 10,
     marginRight: 10,
   },
@@ -356,5 +366,38 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -windowWidth * 0.4,
     left: -windowWidth * 0.4,
+  },
+  opportunityRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  opportunityCard: {
+    width: '48%', // Adjust as needed
+    borderRadius: 10,
+    marginBottom: 20,
+    backgroundColor: '#fff',
+    elevation: 3,
+    shadowColor: '#000', 
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  opportunityCardContent: {
+    padding: 10,
+  },
+  rateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  rate: {
+    fontSize: 16,
+    marginLeft: 5,
+    color: '#666',
+    
   },
 });
