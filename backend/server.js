@@ -38,19 +38,7 @@ app.use('/seeker',routeseeker)
 app.use('/opp',routeropportunity)
 app.use('/package',routerpackage)
 app.use('/chat', routerchat)
-app.post("/chat/createaudio/:id", async (req, res) => {
-  const id = req.params.id;
-  await db.Audio.create({
-    data: req.body,
-    MessageId: id,
-  });
-  res.sendStatus(201);
-});
-app.get("/chat/getaudio/:id", async (req, res) => {
-  const id = req.params.id;
-  const data = await db.Audio.findOne({ where: { messageId: id } });
-  res.send(data);
-});
+
 
 server.listen(port, () => {
   console.log("the server is listening on ", port);
