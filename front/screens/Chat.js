@@ -6,6 +6,7 @@ import {
   Dimensions,
   SafeAreaView,
   ScrollView,
+  Platform
 } from "react-native";
 import ChatItem from "../components/ChatItem";
 import { useEffect, useState } from "react";
@@ -25,7 +26,7 @@ export default function Chat({ navigation }) {
 
   useEffect(() => {
     fetch(
-      `http://192.168.100.12:3000/chat/getallchats/${userId}${
+      `http://192.168.103.6:3000/chat/getallchats/${userId}${
         isProvider ? "?isProvider=true" : null
       }`
     )
@@ -42,7 +43,7 @@ export default function Chat({ navigation }) {
 
 
 const deleteChat = async (chatId) => {
-    await fetch(`http://192.168.100.12:3000/chat/deletechat/${chatId}`, {
+    await fetch(`http://192.168.103.6:3000/chat/deletechat/${chatId}`, {
       method: "DELETE",
     }).then(() => {
       const filteredChats = chats.filter((chat) => chat.id !== chatId);
@@ -54,8 +55,8 @@ const deleteChat = async (chatId) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Messages</Text>
-      <ScrollView>
-        {chats.map((chat) => (
+      <ScrollView >
+        {chats.map((chat ) => (
           <View style={styles.chat}>
             <ChatItem
               image={chat.image}
@@ -80,13 +81,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 20,
     gap: 10,
+    paddingTop: Platform.OS === "ios" ? 40 : 0,
   },
   title: {
     width: "100%",
     fontSize: 24,
     fontWeight: "bold",
     color: "#003",
-    padding: 10
+    padding: 10,
   },
   chat: {
     width: "100%",

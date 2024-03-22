@@ -163,6 +163,7 @@ const Messages = sequelize.define(
       allowNull: false,
       defaultValue: false,
     },
+   
   },
   { freezeTableName: true, timestamps: false }
 );
@@ -245,9 +246,30 @@ const Audio = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    duration: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
   },
   { freezeTableName: true, timestamps: false }
 );
+
+const Photo = sequelize.define(
+  "photo",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  { timestamps: false }
+);
+
 
 const Packages = sequelize.define('Packages', {
   id: {
@@ -410,7 +432,11 @@ Ratereview.belongsTo(Seekers, { foreignKey: 'seekers_id', onDelete: 'CASCADE' })
 
 Skills.belongsToMany(Opportunities, { through: OpportunitiesHasSkills, onDelete: 'CASCADE' });
 Opportunities.belongsToMany(Skills, { through: OpportunitiesHasSkills, onDelete: 'CASCADE' });
+Audio.hasOne(Messages, { onDelete: "CASCADE" });
+Messages.belongsTo(Audio);
 
+Messages.hasMany(Photo, { onDelete: "CASCADE" });
+Photo.belongsTo(Messages);
 
 sequelize.sync({ alter: true })
   .then(() => {
@@ -436,6 +462,8 @@ module.exports = {
   Opportunities,
   Rateseeker,
   PackageHasFeatures,
-  Features
+  Features,
+  Audio,
+  Photo
 
 };
