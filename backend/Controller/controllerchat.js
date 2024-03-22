@@ -1,4 +1,5 @@
 const chat = require('../Models/chat')
+
 const {getAllChats} = require('../Models/chat')
 const path = require("path");
 
@@ -44,3 +45,11 @@ module.exports = {
     res.sendFile(path.resolve(__dirname + "/../uploads/" + filename));
   }
 };
+
+
+
+
+module.exports={
+
+
+}
