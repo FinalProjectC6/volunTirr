@@ -30,6 +30,10 @@ import NavBar from "./yessine-components/nav";
 import ProfileSeeker from "./yessine-components/profileseeker.jsx";
 import EditProfileSeeker from './yessine-components/editprofileseeker.jsx'
 
+
+import Payment from "./paymentt/payment.jsx";
+import packagee from "./paymentt/packagee.js"
+
 const Stack = createNativeStackNavigator();
 
 SplashScreen.preventAutoHideAsync();
@@ -76,7 +80,15 @@ export default function App() {
             component={Forgpsw}
             options={{ headerShown: false }}
             /> 
-           <Stack.Screen
+              <Stack.Screen
+            name="packagee"
+            component={packagee}
+            options={{ headerShown: false }}/> 
+             <Stack.Screen
+            name="payment"
+            component={Payment}
+            options={{ headerShown: false }}/>
+            <Stack.Screen
             name="Chat"
             component={Chat}
             options={{ headerShown: true }}
@@ -106,7 +118,7 @@ export default function App() {
             name="EditProfileSeeker"
             component={EditProfileSeeker}
             options={{ headerShown: false }}
-          />
+          />  
         </Stack.Navigator>
       </NavigationContainer>
     );
