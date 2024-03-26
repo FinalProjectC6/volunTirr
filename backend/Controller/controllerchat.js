@@ -1,9 +1,6 @@
-const chat = require('../Models/chat')
-
-const {getAllChats} = require('../Models/chat')
+const chat = require("../Models/chat");
+const { getAllChats } = require("../Models/chat");
 const path = require("path");
-
-
 
 module.exports = {
   createChat: async (req, res) => {
@@ -43,13 +40,5 @@ module.exports = {
   getfile: async (req, res) => {
     const filename = req.params.filename;
     res.sendFile(path.resolve(__dirname + "/../uploads/" + filename));
-  }
+  },
 };
-
-
-
-
-module.exports={
-
-
-}

@@ -1,8 +1,7 @@
-const { where } = require('sequelize');
+const { where } = require("sequelize");
 
 const { Messages } = require("../database/index");
-const { Chat, Seekers, Providers ,Audio,Photo} = require("../database");
-
+const { Chat, Seekers, Providers, Audio, Photo } = require("../database");
 
 module.exports = {
   createchat: async (ProviderId, SeekerId) => {
@@ -80,10 +79,3 @@ module.exports = {
     await chat.destroy();
   },
 };
-
-module.exports={
-getchat:async()=>{
-
-}
-
-}
