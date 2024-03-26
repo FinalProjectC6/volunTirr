@@ -54,18 +54,40 @@ catch{(err)=>{
 }}
 },
 
- addprovider:async(req,res)=>{
-try{
-    let {fullname,phone,password,email_address,image,gender,age}=req.body
-let body={fullname,phone,password,email_address,image,gender,age}
-
- provider.createprovider(body)
-res.send('provider created successfully')
-}
-catch{(err)=>{
-    console.log(err);
-}}
-}
-
+addprovider: async (req, res) => {
+    try {
+      let {
+        id,
+        fullname,
+        email_address,
+        password,
+        image,
+        background,
+        bio,
+        phone,
+        age,
+        gender,
+      } = req.body;
+      let body = {
+        id,
+        fullname,
+        email_address,
+        password,
+        image,
+        background,
+        bio,
+        phone,
+        age,
+        gender,
+      };
+      const user = await provider.createprovider(body);
+      console.log(user.dataValues);
+      res.send(user);
+    } catch {
+      (err) => {
+        console.log(err);
+      };
+    }
+  },
 
 }

@@ -33,6 +33,8 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 
+
+app.use('/auth',routerauth)
 app.use('/provider',routeprovider)
 app.use('/seeker',routeseeker)
 app.use('/opp',routeropportunity)

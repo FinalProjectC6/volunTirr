@@ -15,21 +15,22 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("screen");
 
-const Register = () => {
+const SignupPro = () => {
   const navigation = useNavigation();
-  const [mydata, setMydata] = useState({
+  const [mydataa, setMydataa] = useState({
     id:0,
     fullname: "",
     email_address: "",
     password: "",
   });
-console.log(mydata,"data");
+console.log(mydataa,"data");
   const SignUp = async () => {
     try {
-      const response = await axios.post("http://192.168.101.3:3000/auth/signup", mydata);
+      const response = await axios.post("http://192.168.101.3:3000/auth/signupPro", mydataa);
       const userID = response.data.id; 
       console.log("Registration successful:",response.data ,userID );
-      navigation.navigate("description", { userData: mydata , userID: userID }); 
+      navigation.navigate("descriptionPro", { userData: mydataa , userID: userID }); 
+
     } catch (error) {
       console.error("Registration failed:", error);
       Alert.alert("Error", "Something is wrong. Please try again.");
@@ -38,7 +39,7 @@ console.log(mydata,"data");
   
 
   const handleSub = async () => {
-    if (!mydata.fullname || !mydata.email_address || !mydata.password) {
+    if (!mydataa.fullname || !mydataa.email_address || !mydataa.password) {
       Alert.alert("Error", "All fields are required");
       return;
     }
@@ -72,26 +73,26 @@ console.log(mydata,"data");
       <Text style={styles.welcome}>VOLUNTIRLY</Text>
 
       <View style={styles.allInput}>
-        <Text style={styles.name}>Create your account</Text>
+        <Text style={styles.name}>.Create your account.</Text>
         <Text style={styles.weltext}>___Create account for an amazing experience___</Text>
 
         <View style={styles.nameInput}>
           <PaperTextInput
             style={styles.input}
             placeholder=" Your Full Name"
-            onChangeText={(text) => setMydata({ ...mydata, fullname: text })}
+            onChangeText={(text) => setMydataa({ ...mydataa, fullname: text })}
           />
         </View>
         <PaperTextInput
           style={styles.input}
           placeholder=" Enter Your Email"
-          onChangeText={(text) => setMydata({ ...mydata, email_address: text })}
+          onChangeText={(text) => setMydataa({ ...mydataa, email_address: text })}
         />
         <PaperTextInput
           style={styles.input}
           placeholder=" Enter Your Password"
           secureTextEntry={visible}
-          onChangeText={(text) => setMydata({ ...mydata, password: text })}
+          onChangeText={(text) => setMydataa({ ...mydataa, password: text })}
           right={
             <PaperTextInput.Icon
               onPress={() => setVisible(!visible)}
@@ -198,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default SignupPro;

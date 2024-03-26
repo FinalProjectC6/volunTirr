@@ -12,13 +12,13 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-const Getstarted = () => {
+const Choose = () => {
   const navigation = useNavigation();
-  const goToSignUp = () => {
-    navigation.navigate("sign");
+  const goToGetstartedseeker = () => {
+    navigation.navigate("Getstarted");
   };
-  const goToLog = () => {
-    navigation.navigate("Login");
+  const goToGetstartedProvider = () => {
+    navigation.navigate("GetstartedPRO");
   };
 
   return (
@@ -37,17 +37,17 @@ const Getstarted = () => {
         </View>
       </View>
       <View style={styles.lay} >
-      <Text style={styles.title}>HELLO SEEKER</Text>
+      <Text style={styles.title}>SELECT YOUR ROLE</Text>
       <Text style={styles.subtitle}>
-  Welcome again ! As a seeker, you have the opportunity to embark on meaningful journeys while making a positive impact. Explore new places, challenge yourself, and grow as you exchange your skills for valuable experiences. Join us in creating a better world
-</Text>
-
+        All while making an impact, Here you might wanna choose a role to serve your needs   
+        so you can countinue your journey with us.
+      </Text>
       <View style={styles.buttP} >
-      <TouchableOpacity style={styles.registerButt} onPress={goToSignUp}>
-        <Text style={styles.buttText}>Sign Up</Text>
+      <TouchableOpacity style={styles.registerButt} onPress={goToGetstartedseeker}>
+        <Text style={styles.buttText}>Seeker</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.logButt} onPress={goToLog}>
-        <Text style={styles.buttText}>log in</Text>
+      <TouchableOpacity style={styles.logButt} onPress={goToGetstartedProvider}>
+        <Text style={styles.buttText}>Provider</Text>
       </TouchableOpacity>
       </View>
       </View>
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: -220,
+    marginTop: -280,
   },
 
   title:   {
@@ -97,19 +97,17 @@ const styles = StyleSheet.create({
     lineHeight: 76,
     letterSpacing: 5,
     textAlign: 'center',
-    color: '#000000', 
-    paddingHorizontal: 15 // Adjust color as needed
+    color: '#000000', // Adjust color as needed
+    paddingHorizontal: 15
   },
   subtitle: {
     color: "#969AA8",
-    fontSize: 15,
+    fontSize: 19,
     fontWeight: "bold",
-    letterSpacing:1,
     textAlign: "center",
-    paddingHorizontal: 15
   },
   registerButt: {
-    backgroundColor: "#05A4C8",
+    backgroundColor: "#25B4F8",
     width: width * 0.75,
     height: height * 0.05,
     justifyContent: "center",
@@ -122,7 +120,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   logButt: {
-    backgroundColor: "#05A4C8",
+    backgroundColor: "#25B4F8",
     width: width * 0.75,
     height: height * 0.05,
     justifyContent: "center",
@@ -131,8 +129,8 @@ const styles = StyleSheet.create({
     marginTop:10
   },
   buttP:{
-    marginTop :80
+    marginTop :90
   }
 });
 
-export default Getstarted;
+export default Choose;

@@ -1,48 +1,53 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from "@react-navigation/native";
 
 export default function NavBar() {
   const [activeButton, setActiveButton] = useState('');
   const navigation = useNavigation();
 
-
   const chat = () => {
-    navigation.navigate('Chat')
-   
+    navigation.navigate('Chat');
+    setActiveButton('chat'); // Assuming you want to highlight the chat icon when navigated to the Chat screen
   };
+
   const home = () => {
-    navigation.navigate('HomePage')
-   
+    navigation.navigate('HomePage');
+    setActiveButton('home');
   };
 
   const profileseeker = () => {
-    navigation.navigate('ProfileSeeker')
-  
+    navigation.navigate('ProfileSeeker');
+    setActiveButton('ProfileSeeker');
   };
 
+  const map = () => {
+    navigation.navigate('Map');
+    setActiveButton('Map');
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.navBar}>
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'home' && styles.activeButton]}
-          onPress={() => setActiveButton('home')}>
+          onPress={home}>
           <AntDesign name="home" size={30} color={activeButton === 'home' ? '#2b5b9c' : '#87ceeb'} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.navButton, activeButton === 'search' && styles.activeButton]}
-          onPress={() => setActiveButton('search')}>
-          <AntDesign name="search1" size={30} color={activeButton === 'search' ? '#2b5b9c' : '#87ceeb'} />
+          style={[styles.navButton, activeButton === 'chat' && styles.activeButton]}
+          onPress={chat}>
+          <AntDesign name="message1" size={30} color={activeButton === 'chat' ? '#2b5b9c' : '#87ceeb'} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.navButton, activeButton === 'heart' && styles.activeButton]}
-          onPress={() => setActiveButton('heart')}>
-          <AntDesign name="hearto" size={30} color={activeButton === 'heart' ? '#2b5b9c' : '#87ceeb'} />
+          style={[styles.navButton, activeButton === 'maps' && styles.activeButton]}
+          onPress={map}>
+          <AntDesign name="enviroment" size={30} color={activeButton === 'maps' ? '#2b5b9c' : '#87ceeb'} />
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'user' && styles.activeButton]}
-          onPress={profileseeker }>
+          onPress={profileseeker}>
           <AntDesign name="user" size={30} color={activeButton === 'user' ? '#2b5b9c' : '#87ceeb'} />
         </TouchableOpacity>
       </View>
