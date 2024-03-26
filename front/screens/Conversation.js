@@ -50,7 +50,7 @@ const sendMessage = async (audioMsg = null, photos = null) => {
     audio: audioMsg,
   };
 
-  await fetch("http://192.168.103.6:3000/chat/createmessage", {
+  await fetch("http://192.168.100.4:3000/chat/createmessage", {
     method: "POST",
     body: JSON.stringify(messageBody),
     headers: {
@@ -73,7 +73,7 @@ const sendMessage = async (audioMsg = null, photos = null) => {
   };
 
   useEffect(() => {
-    fetch(`http://192.168.103.6:3000/chat/getallmessage/${ChatId}`)
+    fetch(`http://192.168.100.4:3000/chat/getallmessage/${ChatId}`)
       .then((result) => result.json())
       .then((result) => setMessages(result))
       .catch((err) => console.log(err));
@@ -106,7 +106,7 @@ const sendMessage = async (audioMsg = null, photos = null) => {
           "img" + new Date().getTime() + "." + fileName.split(".").at(-1);
 
         await FileSystem.uploadAsync(
-          "http://192.168.103.6:3000/chat/createfile",
+          "http://192.168.100.4:3000/chat/createfile",
           uri,
           {
             fieldName: photoName,

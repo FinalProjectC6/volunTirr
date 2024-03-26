@@ -1,6 +1,5 @@
-const routerchat=require('express').Router()
-
-const controllerchat=require('../Controller/controllerchat')
+const routerchat = require("express").Router();
+const controllerchat = require("../Controller/controllerchat");
 
 const multer = require("multer");
 const storage = multer.diskStorage({
@@ -13,11 +12,11 @@ const storage = multer.diskStorage({
   },
 }); // add to .gitignore
 const upload = multer({ storage });
-routerchat.post('/createchat',controllerchat.createChat)
+routerchat.post("/createchat", controllerchat.createChat);
 routerchat.post("/createmessage", controllerchat.createMessage);
 routerchat.get("/getallmessage/:chatId", controllerchat.getallMessage);
 routerchat.get("/getallchats/:id/", controllerchat.getAllChats);
 routerchat.delete("/deletechat/:chatId", controllerchat.deleteChat);
 routerchat.post("/createfile", upload.any(), (_, res) => res.send("success"));
 routerchat.get("/getfile/:filename", controllerchat.getfile);
-module.exports=routerchat
+module.exports = routerchat;
