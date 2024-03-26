@@ -1,7 +1,7 @@
-const { where } = require('sequelize');
+const { where } = require("sequelize");
 
 const { Messages } = require("../database/index");
-const { Chat, Seekers, Providers } = require("../database");
+const { Chat, Seekers, Providers, Audio, Photo } = require("../database");
 
 module.exports = {
   createchat: async (ProviderId, SeekerId) => {
@@ -10,16 +10,39 @@ module.exports = {
       SeekerId,
     });
   },
-  createMessage: async (ChatId, isProvider, content) => {
-    await Messages.create({
-      ChatId,
-      isProvider,
-      content,
-      timestamp: new Date(),
-    });
+
+  createMessage: async (
+    ChatId,
+    isProvider,
+    content,
+    timestamp,
+    audio,
+    photos
+  ) => {
+    // Need to this because if either audio or photos is null, sequelize throws an error
+    const mediaIncluded = {
+      include:
+        audio && photos ? [Audio, Photo] : audio ? Audio : photos ? Photo : [],
+    };
+
+    await Messages.create(
+      {
+        ChatId,
+        isProvider,
+        content,
+        timestamp,
+        audio,
+        photos,
+      },
+      mediaIncluded
+    );
   },
+
   getallmessage: async (ChatId) => {
-    return await Messages.findAll({ where: { ChatId: ChatId } });
+    return await Messages.findAll({
+      where: { ChatId: ChatId },
+      include: Audio,
+    });
   },
 
   getAllChats: async (id, isProvider) => {

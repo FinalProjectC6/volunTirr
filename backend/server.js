@@ -1,17 +1,19 @@
 const express = require("express");
 const cors = require("cors");
-const db=require('./database/index')
-const routeprovider=require('./Routes/routesprovider')
-const routeseeker=require('./Routes/routeseeker')
-const routeropportunity=require('./Routes/routesopp')
-const routerpackage=require('./Routes/routepacakges')
- const routerchat= require('./Routes/routechat')
- const { createServer } = require("node:http");
- const { Server } = require("socket.io");
- const { joinroom, sendMessage, exitroom } = require("./Controller/controllersocket");
-const routerauth =require('./Routes/routerauth')
-
-
+const db = require("./database/index");
+const routeprovider = require("./Routes/routesprovider");
+const routeseeker = require("./Routes/routeseeker");
+const routeropportunity = require("./Routes/routesopp");
+const routerpackage = require("./Routes/routepacakges");
+const routerchat = require("./Routes/routechat");
+const { createServer } = require("node:http");
+const { Server } = require("socket.io");
+const {
+  joinroom,
+  sendMessage,
+  exitroom,
+} = require("./Controller/controllersocket");
+const routerauth = require("./Routes/routerauth");
 
 const port = 3000;
 const app = express();

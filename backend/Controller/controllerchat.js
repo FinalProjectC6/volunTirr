@@ -1,7 +1,6 @@
-const chat = require('../Models/chat')
-const {getAllChats} = require('../Models/chat')
-
-
+const chat = require("../Models/chat");
+const { getAllChats } = require("../Models/chat");
+const path = require("path");
 
 module.exports = {
   createChat: async (req, res) => {
@@ -11,11 +10,17 @@ module.exports = {
   },
 
   createMessage: async (req, res) => {
-    const { ChatId, isProvider, content } = req.body;
-    await chat.createMessage(ChatId, isProvider, content);
+    const { ChatId, isProvider, content, timestamp, audio, photos } = req.body;
+    await chat.createMessage(
+      ChatId,
+      isProvider,
+      content,
+      timestamp,
+      audio,
+      photos
+    );
     return res.json("Message created successfully!");
   },
-
   getAllChats: async (req, res) => {
     const id = req.params.id;
     const isProvider = req.query.isProvider;
@@ -31,5 +36,9 @@ module.exports = {
     const chatId = req.params.chatId;
     await chat.deleteChat(chatId);
     res.json("Chat deleted successfully");
+  },
+  getfile: async (req, res) => {
+    const filename = req.params.filename;
+    res.sendFile(path.resolve(__dirname + "/../uploads/" + filename));
   },
 };

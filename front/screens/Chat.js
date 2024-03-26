@@ -5,6 +5,8 @@ import {
   View,
   ScrollView,
   SafeAreaView,
+  ScrollView,
+  Platform
 } from "react-native";
 import ChatItem from "../components/ChatItem";
 import socket from "../utils/socket";
@@ -72,12 +74,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 20,
+    gap: 10,
+    paddingTop: Platform.OS === "ios" ? 40 : 0,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     color: "#003",
-    marginBottom: 10,
+    padding: 10,
   },
   chat: {
     borderBottomWidth: 1,
