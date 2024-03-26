@@ -12,13 +12,13 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-const Getstarted = () => {
+const GetstartedPRO = () => {
   const navigation = useNavigation();
   const goToSignUp = () => {
-    navigation.navigate("sign");
+    navigation.navigate("SignupPro");
   };
   const goToLog = () => {
-    navigation.navigate("Login");
+    navigation.navigate("LoginPRO");
   };
 
   return (
@@ -37,11 +37,9 @@ const Getstarted = () => {
         </View>
       </View>
       <View style={styles.lay} >
-      <Text style={styles.title}>HELLO SEEKER</Text>
-      <Text style={styles.subtitle}>
-  Welcome again ! As a seeker, you have the opportunity to embark on meaningful journeys while making a positive impact. Explore new places, challenge yourself, and grow as you exchange your skills for valuable experiences. Join us in creating a better world
-</Text>
-
+      <Text style={styles.title}>HELLO PROVIDER</Text>
+      <Text style={styles.subtitle}>Welcome, Providers! Your generosity and willingness to offer opportunities make a world of difference. Join us in empowering seekers, building communities, and creating positive change one opportunity at a time.
+      </Text>
       <View style={styles.buttP} >
       <TouchableOpacity style={styles.registerButt} onPress={goToSignUp}>
         <Text style={styles.buttText}>Sign Up</Text>
@@ -97,8 +95,9 @@ const styles = StyleSheet.create({
     lineHeight: 76,
     letterSpacing: 5,
     textAlign: 'center',
-    color: '#000000', 
-    paddingHorizontal: 15 // Adjust color as needed
+    color: '#000000', // Adjust color as needed
+    paddingHorizontal: 15
+
   },
   subtitle: {
     color: "#969AA8",
@@ -135,4 +134,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Getstarted;
+export default GetstartedPRO;

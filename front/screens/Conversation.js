@@ -50,15 +50,16 @@ const sendMessage = async (audioMsg = null, photos = null) => {
     audio: audioMsg,
   };
 
-  await fetch("http://192.168.100.4:3000/chat/createmessage", {
-    method: "POST",
-    body: JSON.stringify(messageBody),
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  })
-    .then(() => {
+    try {
+      await fetch(`http://192.168.101.3:3000/chat/createmessage`, {
+        method: "POST",
+        body: JSON.stringify(messageBody),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
       socket.emit("message", ChatId, messageBody);
       addMessage(messageBody);
       setInput("");
@@ -73,7 +74,7 @@ const sendMessage = async (audioMsg = null, photos = null) => {
   };
 
   useEffect(() => {
-    fetch(`http://192.168.100.4:3000/chat/getallmessage/${ChatId}`)
+    fetch(`http://192.168.101.3:3000/chat/getallmessage/${ChatId}`)
       .then((result) => result.json())
       .then((result) => setMessages(result))
       .catch((err) => console.log(err));

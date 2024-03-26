@@ -6,52 +6,76 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Alert,
+  Alert
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput as PaperTextInput } from "react-native-paper";
-import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 const { width, height } = Dimensions.get("screen");
 
-const Register = () => {
-  const navigation = useNavigation();
-  const [mydata, setMydata] = useState({
-    id:0,
-    fullname: "",
+const LoginPRO = () => {
+  const [visible, setVisible] = useState(true);
+  const [formData, setFormData] = useState({
     email_address: "",
-    password: "",
+    password: ""
   });
-console.log(mydata,"data");
-  const SignUp = async () => {
-    try {
-      const response = await axios.post("http://192.168.101.3:3000/auth/signup", mydata);
-      const userID = response.data.id; 
-      console.log("Registration successful:",response.data ,userID );
-      navigation.navigate("description", { userData: mydata , userID: userID }); 
-    } catch (error) {
-      console.error("Registration failed:", error);
-      Alert.alert("Error", "Something is wrong. Please try again.");
-    }
-  };
-  
+  const [loading, setLoading] = useState(false);
 
-  const handleSub = async () => {
-    if (!mydata.fullname || !mydata.email_address || !mydata.password) {
-      Alert.alert("Error", "All fields are required");
+  const navigation = useNavigation();
+
+  const goToSignUp = () => {
+    navigation.navigate("sign");
+  };
+
+  const Forgpsw = () => {
+    navigation.navigate("Forgpsw");
+  };
+
+  const GoToHome = () => {
+    navigation.navigate("HomePage");
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    if (!formData.email_address || !formData.password) {
+      Alert.alert("Login Error", "All fields are required");
+      setLoading(false);
       return;
     }
 
     try {
-      await SignUp();
+      const data = await login_me(formData);
+
+      if (data.token) {
+        setLoading(false);
+        Alert.alert("Welcome", data.name);
+        setTimeout(() => {
+          navigation.navigate("HomePage",{data});
+          console.log(data,"data log");
+        }, 2000);
+        ;
+      } else {
+        setLoading(false);
+        Alert.alert("Error");
+      }
     } catch (error) {
-      console.error("Registration failed:", error);
-      Alert.alert("Error", "Something is wrong. Please try again.");
+      setLoading(false);
+      Alert.alert("Error", "An unexpected error occurred");
     }
   };
 
-  const [visible, setVisible] = useState(true);
+  const login_me = async (formData) => {
+    try {
+      const response = await axios.post(`http://192.168.101.3:3000/auth/loginPro`, formData);
+      return response.data;
+    } catch (error) {
+      console.log("error in login (service) => ", error);
+      throw error;
+    }
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -63,35 +87,27 @@ console.log(mydata,"data");
         <TouchableOpacity style={styles.userImage}>
           <Image
             style={styles.userImageStyle}
-            source={{
-              uri: "https://cdn.discordapp.com/attachments/1211991148243984385/1212773709677461534/Screenshot_2024-02-29_154927.png?ex=65fc4908&is=65e9d408&hm=0c6982dbf3b6a235a2d8c786a056a4ca8aae7f33c3e34fb4e29652036f82255a&",
-            }}
+            source={{ uri: "https://cdn.discordapp.com/attachments/1211991148243984385/1212773709677461534/Screenshot_2024-02-29_154927.png?ex=65fc4908&is=65e9d408&hm=0c6982dbf3b6a235a2d8c786a056a4ca8aae7f33c3e34fb4e29652036f82255a&" }}
           />
         </TouchableOpacity>
       </View>
-      <Text style={styles.welcome}>VOLUNTIRLY</Text>
+      <Text style={styles.welcome}>WELCOME</Text>
 
       <View style={styles.allInput}>
-        <Text style={styles.name}>Create your account</Text>
-        <Text style={styles.weltext}>___Create account for an amazing experience___</Text>
-
-        <View style={styles.nameInput}>
-          <PaperTextInput
-            style={styles.input}
-            placeholder=" Your Full Name"
-            onChangeText={(text) => setMydata({ ...mydata, fullname: text })}
-          />
-        </View>
+        <Text style={styles.name}>Enjoy the journey!</Text>
+        <Text style={styles.weltext}>
+          ___Let’s login for explore continues___
+        </Text>
         <PaperTextInput
           style={styles.input}
-          placeholder=" Enter Your Email"
-          onChangeText={(text) => setMydata({ ...mydata, email_address: text })}
+          placeholder=" Enter Your email"
+          onChangeText={(text) => setFormData({ ...formData, email_address: text })}
         />
         <PaperTextInput
           style={styles.input}
           placeholder=" Enter Your Password"
           secureTextEntry={visible}
-          onChangeText={(text) => setMydata({ ...mydata, password: text })}
+          onChangeText={(text) => setFormData({ ...formData, password: text })}
           right={
             <PaperTextInput.Icon
               onPress={() => setVisible(!visible)}
@@ -99,8 +115,11 @@ console.log(mydata,"data");
             />
           }
         />
-        <TouchableOpacity style={styles.registerButt} onPress={handleSub}>
-          <Text style={styles.buttText}>Register</Text>
+        <Text style={styles.forgotPassword} onPress={Forgpsw}>Forgot password</Text>
+        <Text style={styles.alha} onPress={goToSignUp}>Don't have an account?</Text>
+
+        <TouchableOpacity style={styles.LogButt} onPress={handleSubmit} disabled={loading}>
+          <Text style={styles.buttText} onPress={GoToHome} >Log in</Text>
         </TouchableOpacity>
         <View style={styles.design2}></View>
       </View>
@@ -119,15 +138,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   design: {
-    backgroundColor: "#05A4C8",
+    backgroundColor: "#42B7FB",
     width: width * 0.9,
     height: height * 0.2,
     borderBottomLeftRadius: width * 0.4,
     borderBottomRightRadius: width * 0.4,
   },
   design2: {
-    backgroundColor: "#05A4C8",
-    width: width * 0.9,
+    backgroundColor: "#42B7FB",
+    width: width * 0.8,
     height: height * 0.1,
     borderTopLeftRadius: width * 0.25,
     borderTopRightRadius: width * 0.25,
@@ -143,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userImageStyle: {
-    borderRadius: width * 0.3,
+    borderRadius: width * 0.2,
     width: width * 0.5,
     height: width * 0.5,
   },
@@ -164,7 +183,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 15,
   },
-  registerButt: {
+  LogButt: {
     backgroundColor: "#05A4C8",
     width: width * 0.75,
     height: height * 0.05,
@@ -196,6 +215,11 @@ const styles = StyleSheet.create({
     color: "#42B7FB",
     marginLeft: 220,
   },
+  alha: {
+    fontSize: 15,
+    color: "#42B7FB",
+    marginLeft: 195,
+  }
 });
 
-export default Register;
+export default LoginPRO;

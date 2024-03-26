@@ -5,8 +5,8 @@ const {Providers}=require('../database/index')
 const getallproviders=()=>{
     return Providers.findAll()
 }
-const createprovider=(data)=>{
-Providers.create(data)
+const   createprovider=(data)=>{
+    return Providers.create(data)
 }
 const updateprovider = (providerid, body) => {
     return Providers.update(body, { where: { id: providerid } });

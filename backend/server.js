@@ -35,11 +35,26 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 
-app.use("/provider", routeprovider);
-app.use("/seeker", routeseeker);
-app.use("/opp", routeropportunity);
-app.use("/package", routerpackage);
-app.use("/chat", routerchat);
+
+app.use('/auth',routerauth)
+app.use('/provider',routeprovider)
+app.use('/seeker',routeseeker)
+app.use('/opp',routeropportunity)
+app.use('/package',routerpackage)
+app.use('/chat', routerchat)
+app.post("/chat/createaudio/:id", async (req, res) => {
+  const id = req.params.id;
+  await db.Audio.create({
+    data: req.body,
+    MessageId: id,
+  });
+  res.sendStatus(201);
+});
+app.get("/chat/getaudio/:id", async (req, res) => {
+  const id = req.params.id;
+  const data = await db.Audio.findOne({ where: { messageId: id } });
+  res.send(data);
+});
 
 server.listen(port, () => {
   console.log("the server is listening on ", port);

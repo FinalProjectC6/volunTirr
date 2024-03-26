@@ -6,27 +6,75 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Alert
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput as PaperTextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
-
+import axios from "axios";
 
 const { width, height } = Dimensions.get("screen");
 
-const Log = () => {
+const LoginPRO = () => {
   const [visible, setVisible] = useState(true);
-  
+  const [formData, setFormData] = useState({
+    email_address: "",
+    password: ""
+  });
+  const [loading, setLoading] = useState(false);
+
   const navigation = useNavigation();
+
   const goToSignUp = () => {
-    navigation.navigate('sign');
+    navigation.navigate("sign");
   };
+
   const Forgpsw = () => {
-    navigation.navigate('Forgpsw');
+    navigation.navigate("Forgpsw");
   };
 
   const GoToHome = () => {
     navigation.navigate("HomePage");
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    if (!formData.email_address || !formData.password) {
+      Alert.alert("Login Error", "All fields are required");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const data = await login_me(formData);
+
+      if (data.token) {
+        setLoading(false);
+        Alert.alert("Welcome", data.name);
+        setTimeout(() => {
+          navigation.navigate("HomePage",{data});
+          console.log(data,"data log");
+        }, 2000);
+        ;
+      } else {
+        setLoading(false);
+        Alert.alert("Error");
+      }
+    } catch (error) {
+      setLoading(false);
+      Alert.alert("Error", "An unexpected error occurred");
+    }
+  };
+
+  const login_me = async (formData) => {
+    try {
+      const data = await axios.post(`http://192.168.101.3:3000/auth/login`, formData);
+      return data.data;
+    } catch (error) {
+      console.log("error in login (service) => ", error);
+      throw error;
+    }
   };
 
   return (
@@ -39,7 +87,7 @@ const Log = () => {
         <TouchableOpacity style={styles.userImage}>
           <Image
             style={styles.userImageStyle}
-            source={{uri:("https://cdn.discordapp.com/attachments/1211991148243984385/1212773709677461534/Screenshot_2024-02-29_154927.png?ex=65fc4908&is=65e9d408&hm=0c6982dbf3b6a235a2d8c786a056a4ca8aae7f33c3e34fb4e29652036f82255a&")}} // Provide the path to your image
+            source={{ uri: "https://cdn.discordapp.com/attachments/1211991148243984385/1212773709677461534/Screenshot_2024-02-29_154927.png?ex=65fc4908&is=65e9d408&hm=0c6982dbf3b6a235a2d8c786a056a4ca8aae7f33c3e34fb4e29652036f82255a&" }}
           />
         </TouchableOpacity>
       </View>
@@ -50,22 +98,27 @@ const Log = () => {
         <Text style={styles.weltext}>
           ___Let’s login for explore continues___
         </Text>
-        <PaperTextInput style={styles.input} placeholder=" Enter Your Email" />
+        <PaperTextInput
+          style={styles.input}
+          placeholder=" Enter Your email"
+          onChangeText={(text) => setFormData({ ...formData, email_address: text })}
+        />
         <PaperTextInput
           style={styles.input}
           placeholder=" Enter Your Password"
           secureTextEntry={visible}
+          onChangeText={(text) => setFormData({ ...formData, password: text })}
           right={
-            <PaperTextInput.Icon               
+            <PaperTextInput.Icon
               onPress={() => setVisible(!visible)}
               icon={visible ? "eye-off" : "eye"}
             />
           }
         />
-        <Text style={styles.forgotPassword} onPress={Forgpsw}  >Forgot password</Text>
-        <Text style={styles.alha} onPress={goToSignUp}  >dont have an acccout?</Text>
+        <Text style={styles.forgotPassword} onPress={Forgpsw}>Forgot password</Text>
+        <Text style={styles.alha} onPress={goToSignUp}>Don't have an account?</Text>
 
-        <TouchableOpacity style={styles.LogButt}>
+        <TouchableOpacity style={styles.LogButt} onPress={handleSubmit} disabled={loading}>
           <Text style={styles.buttText} onPress={GoToHome} >Log in</Text>
         </TouchableOpacity>
         <View style={styles.design2}></View>
@@ -97,7 +150,7 @@ const styles = StyleSheet.create({
     height: height * 0.1,
     borderTopLeftRadius: width * 0.25,
     borderTopRightRadius: width * 0.25,
-    marginTop:90,
+    marginTop: 90,
   },
   userImage: {
     position: "absolute",
@@ -162,11 +215,11 @@ const styles = StyleSheet.create({
     color: "#42B7FB",
     marginLeft: 220,
   },
-  alha:{
+  alha: {
     fontSize: 15,
     color: "#42B7FB",
     marginLeft: 195,
   }
 });
 
-export default Log;
+export default LoginPRO;
