@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, Button, StyleSheet, Linking } from 'react-native';
+import { View, Button, StyleSheet, Linking , TouchableOpacity ,Text,Dimensions} from 'react-native';
 import axios from 'axios';
 import { IP } from '../ip.json';
 import { useNavigation } from '@react-navigation/native';
+
+const { width, height } = Dimensions.get("screen");
 
 const Payment = ({route}) => {
     const [total, setTotal] = useState(7000);
@@ -37,9 +39,14 @@ const Payment = ({route}) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-                <Button title="Proceed to Payment" onPress={()=>pay()} />
-            </View>
+      < Text >amazing choices </Text>  
+      < Text >this is what the pakage about </Text>
+      < Text >amazing choices </Text>
+      < Text >amazing choices </Text>
+
+        <TouchableOpacity style={styles.payment} onPress={pay}>
+          <Text style={styles.buttText}>Proceed to Payment</Text>
+        </TouchableOpacity>
         </View>
     );
 };
@@ -52,6 +59,19 @@ const styles = StyleSheet.create({
     buttonContainer: {
         marginVertical: 20,
     },
+    payment: {
+        backgroundColor: "#25B4F8",
+        width: width * 0.75,
+        height: height * 0.05,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+      },
+      buttText: {
+        color: "white",
+        fontSize: 18,
+        fontWeight: "bold",
+      }
 });
 
 export default Payment;

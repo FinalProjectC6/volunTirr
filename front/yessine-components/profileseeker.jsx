@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'rea
 import { FontAwesome5 } from '@expo/vector-icons'; 
 import NavBar from './nav';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native'; // Import useRoute
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -23,6 +24,13 @@ const ProfileSeeker = () => {
    navigation.navigate('EditProfileSeeker')
    
   };
+
+  const route = useRoute(); // Use useRoute hook to access route params
+
+  const { data } = route.params; // Access passed data object
+  
+  console.log(data, "home data");
+
 
   return (
     <View style={styles.container}>

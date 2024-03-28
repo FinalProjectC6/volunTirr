@@ -171,7 +171,7 @@ console.log(opportunities);
         </View>
       </ScrollView>
       
-      <NavBar />
+      <NavBar data={data}/>
     </View>
   );
 }

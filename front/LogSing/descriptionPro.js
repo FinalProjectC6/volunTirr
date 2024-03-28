@@ -38,7 +38,7 @@ console.log(userID);
     try {
       const response = await axios.put(`http://192.168.101.3:3000/provider/updateprovider/${userID}`, setMydataa); // Include userID in the URL
       console.log("info updated:", response.data);
-      navigation.navigate("LoginPRO");
+      navigation.navigate("packagee");
     } catch (error) {
       console.error(" error in update:", error);
       Alert.alert("Error", "Something is wrong. Please try again.");
@@ -162,13 +162,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   input3: {
-    backgroundColor: "rgb(238, 238, 238)",
-    width: width * 0.8,
-    height: height * 0.1,
-    borderRadius: 10,
-    borderColor: "#05A4C8",
     borderWidth: 2,
-    marginHorizontal: 5,
+    borderColor: "#05A4C8",
+    borderRadius: 10,
+    backgroundColor: "rgb(238, 238, 238)",
+    paddingHorizontal: 15,
+    fontSize: 16,
+    color: '#000000',
+    height: height * 0.08,
+    width: width * 0.8
   },
   inputContainer: {
     justifyContent: "center",
