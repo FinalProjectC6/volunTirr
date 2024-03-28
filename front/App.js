@@ -27,7 +27,6 @@ import Message from "./components/Message.js";
 import Chat from "./screens/Chat";
 import Conversation from "./screens/Conversation";
 import Map from "./screens/Map";
-
 // import OpportunityDetailPage from "../front/componentsss/Oppdetails.jsx";
 // import OpportunitiesPage from "./componentsss/Alloppotunities.jsx";
 
@@ -38,6 +37,12 @@ import HomePage from "./yessine-components/homepage.jsx";
 import NavBar from "./yessine-components/nav";
 import ProfileSeeker from "./yessine-components/profileseeker.jsx";
 import EditProfileSeeker from './yessine-components/editprofileseeker.jsx'
+import PartOne from './yessine-components/addopportunity/partone.jsx'
+import PartTwo from "./yessine-components/addopportunity/parttwo.jsx";
+import PartThree from "./yessine-components/addopportunity/partthree.jsx"
+import PartFour from "./yessine-components/addopportunity/partfour.jsx";
+import Request from "./yessine-components/requests/request.jsx";
+import History from "./yessine-components/requests/history.jsx";
 
 
 import Payment from "./paymentt/payment.jsx";
@@ -148,7 +153,7 @@ export default function App() {
             options={{ headerShown: true }}
           /> 
 
-          <Stack.Screen
+          {/* <Stack.Screen
             name="HomePage"
             component={HomePage}
             options={{ headerShown: false }}
@@ -162,8 +167,40 @@ export default function App() {
             name="EditProfileSeeker"
             component={EditProfileSeeker}
             options={{ headerShown: false }}
-          />  
+          /> */}
+          
+          {/* <Stack.Screen
+            name="PartOne"
+            component={PartOne}
+            options={{ headerShown: false }}
+          /> 
+          <Stack.Screen
+            name="PartTwo"
+            component={PartTwo}
+            options={{ headerShown: false }}
+          /> 
+          <Stack.Screen
+            name="PartThree"
+            component={PartThree}
+            options={{ headerShown: false }}
+          /> 
+          <Stack.Screen
+            name="PartFour"
+            component={PartFour}
+            options={{ headerShown: false }}
+          />  */}
+          <Stack.Screen
+            name="Request"
+            component={Request}
+            options={{ headerShown: false }}
+          /> 
+          <Stack.Screen
+            name="History"
+            component={History}
+            options={{ headerShown: false }}
+          /> 
         </Stack.Navigator>
+        <NavBar />
       </NavigationContainer>
     );
   }

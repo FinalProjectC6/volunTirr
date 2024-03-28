@@ -8,7 +8,7 @@ import { useRoute } from '@react-navigation/native'; // Import useRoute
 const windowWidth = Dimensions.get('window').width;
 
 export default function HomePage() {
-  const profilePictureUrl = "https://img.freepik.com/free-photo/happiness-wellbeing-confidence-concept-cheerful-attractive-african-american-woman-curly-haircut-cross-arms-chest-self-assured-powerful-pose-smiling-determined-wear-yellow-sweater_176420-35063.jpg";
+  const profilePictureUrl = "https://fr.web.img4.acsta.net/pictures/17/06/14/13/48/489688.jpg";
   const name = "John";
   const images = [
     "https://lp-cms-production.imgix.net/2019-06/e41ea44f84a51473b215065226625602-tunisia.jpg?w=600&h=400",
@@ -28,12 +28,13 @@ export default function HomePage() {
   
 
   useEffect(() => {
-    fetch("http://192.168.43.39:3000/opp/getallopportunities")
-      .then((response) => response.json())
-      .then((data) => setOpportunities(data))
-      .catch((error) => console.error("Error fetching data:", error));
+    fetch('http://192.168.100.2:3000/opp/getallopportunities', { timeout: 10000 })
+      .then(response => response.json())
+      .then(data => setOpportunities(data))
+      .catch(error => console.error('Error fetching data:', error));
   }, []);
-console.log(opportunities);
+  
+
   const handleCategoryPress = (category) => {
     setActiveCategory(category);
   };

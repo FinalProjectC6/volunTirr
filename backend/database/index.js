@@ -180,7 +180,7 @@ const Opportunities = sequelize.define('Opportunities', {
     allowNull: false
   },
   logistics: {
-    type: DataTypes.STRING(255),
+    type: DataTypes.JSON,
     allowNull: false
   },
   description: {
@@ -188,7 +188,7 @@ const Opportunities = sequelize.define('Opportunities', {
     allowNull: false
   },
   category: {
-    type: DataTypes.STRING(45),
+    type:DataTypes.JSON,
     allowNull: false
   },
   start: {

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { AntDesign , MaterialCommunityIcons} from '@expo/vector-icons';
+import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-
 export default function NavBar(data) {
   const [activeButton, setActiveButton] = useState('');
   const navigation = useNavigation();
@@ -38,12 +39,12 @@ export default function NavBar(data) {
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'home' && styles.activeButton]}
           onPress={home}>
-          <AntDesign name="home" size={30} color={activeButton === 'home' ? '#2b5b9c' : '#87ceeb'} />
+          <Ionicons name="home-outline" size={30} color={activeButton === 'home' ? '#0A3C57' : '#87CEEB'} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.navButton, activeButton === 'chat' && styles.activeButton]}
+          style={[styles.navButton, activeButton === 'chat' && styles.activeButton]} 
           onPress={chat}>
-          <AntDesign name="message1" size={30} color={activeButton === 'chat' ? '#2b5b9c' : '#87ceeb'} />
+          <Ionicons name="chatbox-outline" size={30} color={activeButton === 'chat' ? '#0A3C57' : '#87CEEB'} />
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'maps' && styles.activeButton]}
@@ -97,6 +98,6 @@ const styles = StyleSheet.create({
   },
   activeButton: {
     borderBottomWidth: 2,
-    borderBottomColor: '#2b5b9c',
+    borderBottomColor: '#0A3C57',
   },
 });
