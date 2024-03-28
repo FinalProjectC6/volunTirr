@@ -31,6 +31,8 @@ import Map from "./screens/Map";
 // import OpportunityDetailPage from "../front/componentsss/Oppdetails.jsx";
 // import OpportunitiesPage from "./componentsss/Alloppotunities.jsx";
 
+import constactus from './contactus/contactus.js'
+
 import FilteredOpp from "./yessine-components/filtredopp.jsx";
 import HomePage from "./yessine-components/homepage.jsx";
 import NavBar from "./yessine-components/nav";
@@ -125,6 +127,10 @@ export default function App() {
              <Stack.Screen
             name="payment"
             component={Payment}
+            options={{ headerShown: false }}/>
+            <Stack.Screen
+            name="constactus"
+            component={constactus}
             options={{ headerShown: false }}/>
             <Stack.Screen
             name="Chat"

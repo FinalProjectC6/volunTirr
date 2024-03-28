@@ -5,7 +5,6 @@ import {
   View,
   ScrollView,
   SafeAreaView,
-  ScrollView,
   Platform
 } from "react-native";
 import ChatItem from "../components/ChatItem";
@@ -87,5 +86,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
     marginBottom: 10,
+    padding :5
   },
 });

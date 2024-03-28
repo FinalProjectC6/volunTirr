@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign , MaterialCommunityIcons} from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 
-export default function NavBar() {
+export default function NavBar(data) {
   const [activeButton, setActiveButton] = useState('');
   const navigation = useNavigation();
 
   const chat = () => {
-    navigation.navigate('Chat');
+    navigation.navigate('Chat',{data});
     setActiveButton('chat'); // Assuming you want to highlight the chat icon when navigated to the Chat screen
   };
 
   const home = () => {
-    navigation.navigate('HomePage');
+    navigation.navigate('HomePage',{data});
     setActiveButton('home');
   };
 
   const profileseeker = () => {
-    navigation.navigate('ProfileSeeker');
+    navigation.navigate('ProfileSeeker',{data});
     setActiveButton('ProfileSeeker');
+  };
+
+  const US = () => {
+    navigation.navigate('constactus',{data});
+    setActiveButton('information');
   };
 
   const map = () => {
@@ -45,6 +50,11 @@ export default function NavBar() {
           onPress={map}>
           <AntDesign name="enviroment" size={30} color={activeButton === 'maps' ? '#2b5b9c' : '#87ceeb'} />
         </TouchableOpacity>
+        <TouchableOpacity
+      style={[styles.navButton, activeButton === 'user' && styles.activeButton]}
+      onPress={US}>
+      <MaterialCommunityIcons name="information" size={30} color={activeButton === 'user' ? '#2b5b9c' : '#87ceeb'} />
+    </TouchableOpacity>
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'user' && styles.activeButton]}
           onPress={profileseeker}>

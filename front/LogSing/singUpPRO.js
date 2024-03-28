@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  SafeAreaView
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput as PaperTextInput } from "react-native-paper";
@@ -18,29 +19,48 @@ const { width, height } = Dimensions.get("screen");
 const SignupPro = () => {
   const navigation = useNavigation();
   const [mydataa, setMydataa] = useState({
-    id:0,
+    id: 0,
     fullname: "",
     email_address: "",
     password: "",
   });
-console.log(mydataa,"data");
+
   const SignUp = async () => {
     try {
-      const response = await axios.post("http://192.168.101.3:3000/auth/signupPro", mydataa);
-      const userID = response.data.id; 
-      console.log("Registration successful:",response.data ,userID );
-      navigation.navigate("descriptionPro", { userData: mydataa , userID: userID }); 
-
+      const response = await axios.post(
+        "http://192.168.101.3:3000/auth/signupPro",
+        mydataa
+      );
+      const userID = response.data.id;
+      console.log("Registration successful:", response.data, userID);
+      navigation.navigate("descriptionPro", { userData: mydataa, userID: userID });
     } catch (error) {
       console.error("Registration failed:", error);
       Alert.alert("Error", "Something is wrong. Please try again.");
     }
   };
-  
 
   const handleSub = async () => {
+    // Validate fullname, email_address, and password
     if (!mydataa.fullname || !mydataa.email_address || !mydataa.password) {
       Alert.alert("Error", "All fields are required");
+      return;
+    }
+
+    // Validate email address using regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(mydataa.email_address)) {
+      Alert.alert("Error", "Please enter a valid email address");
+      return;
+    }
+
+    // Validate password using regex
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(mydataa.password)) {
+      Alert.alert(
+        "Error",
+        "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one digit, and one special character."
+      );
       return;
     }
 
@@ -55,6 +75,7 @@ console.log(mydataa,"data");
   const [visible, setVisible] = useState(true);
 
   return (
+    <SafeAreaView>
     <KeyboardAwareScrollView
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
@@ -106,6 +127,7 @@ console.log(mydataa,"data");
         <View style={styles.design2}></View>
       </View>
     </KeyboardAwareScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -166,7 +188,7 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   registerButt: {
-    backgroundColor: "#05A4C8",
+    backgroundColor: "#25B4F8",
     width: width * 0.75,
     height: height * 0.05,
     justifyContent: "center",
@@ -188,7 +210,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   name: {
-    color: "#05A4C8",
+    color: "#25B4F8",
     fontSize: 30,
     fontWeight: "bold",
   },
