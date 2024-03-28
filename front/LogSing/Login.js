@@ -70,7 +70,7 @@ const LoginPRO = () => {
   const login_me = async (formData) => {
     try {
       const data = await axios.post(
-        `http://192.168.43.39:3000/auth/login`,
+        `http://192.168.100.9:3000/auth/login`,
         formData
       );
       return data.data;

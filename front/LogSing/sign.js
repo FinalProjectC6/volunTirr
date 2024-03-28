@@ -28,7 +28,7 @@ const Register = () => {
   const SignUp = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.43.39:3000/auth/signup",
+        "http://192.168.100.9:3000/auth/signup",
         mydata
       );
       const userID = response.data.id; 
@@ -46,7 +46,7 @@ const Register = () => {
       Alert.alert("Error", "All fields are required");
       return;
     }
-
+//test
     // Validate email address using regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(mydata.email_address)) {

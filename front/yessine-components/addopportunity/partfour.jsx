@@ -60,7 +60,7 @@ const PartFour = () => {
 
       console.log('Opportunity:', opportunity);
 
-      const response = await axios.post('http://192.168.104.12:3000/opp/addopp', opportunity, { timeout: 10000 });
+      const response = await axios.post('http://192.168.100.9:3000/opp/addopp', opportunity, { timeout: 10000 });
 
       console.log('Opportunity created');
       setSuccessVisible(true);

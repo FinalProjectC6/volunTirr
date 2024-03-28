@@ -28,7 +28,7 @@ const SignupPro = () => {
   const SignUp = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.100.4:3000/auth/signupPro",
+        "http://192.168.100.9:3000/auth/signupPro",
         mydataa
       );
       const userID = response.data.id; 

@@ -153,7 +153,7 @@ export default function App() {
             options={{ headerShown: true }}
           /> 
 
-          {/* <Stack.Screen
+          <Stack.Screen
             name="HomePage"
             component={HomePage}
             options={{ headerShown: false }}
@@ -167,9 +167,9 @@ export default function App() {
             name="EditProfileSeeker"
             component={EditProfileSeeker}
             options={{ headerShown: false }}
-          /> */}
+          /> 
           
-          {/* <Stack.Screen
+           <Stack.Screen
             name="PartOne"
             component={PartOne}
             options={{ headerShown: false }}
@@ -188,7 +188,7 @@ export default function App() {
             name="PartFour"
             component={PartFour}
             options={{ headerShown: false }}
-          />  */}
+          /> 
           <Stack.Screen
             name="Request"
             component={Request}
@@ -200,7 +200,6 @@ export default function App() {
             options={{ headerShown: false }}
           /> 
         </Stack.Navigator>
-        <NavBar />
       </NavigationContainer>
     );
   }

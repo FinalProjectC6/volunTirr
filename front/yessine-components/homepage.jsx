@@ -28,7 +28,7 @@ export default function HomePage() {
   
 
   useEffect(() => {
-    fetch('http://192.168.100.2:3000/opp/getallopportunities', { timeout: 10000 })
+    fetch('http://192.168.100.9:3000/opp/getallopportunities', { timeout: 10000 })
       .then(response => response.json())
       .then(data => setOpportunities(data))
       .catch(error => console.error('Error fetching data:', error));
