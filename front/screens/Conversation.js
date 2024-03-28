@@ -32,9 +32,11 @@ const Conversation = ({ route }) => {
   const { id: ChatId, image, name } = route.params;
   const listRef = useRef();
   // console.log("messages",messages);
+  // console.log("messages",messages);
   useEffect(() => {
     listRef.current.scrollToEnd({ params: { animated: true } });
   }, [messages]);
+  let role = "provider";
   let role = "provider";
   if (Platform.OS === "android") role = "seeker";
 
@@ -43,6 +45,17 @@ const Conversation = ({ route }) => {
   const sendMessage = async (audioMsg = null, photos = null) => {
     if (!input && !audioMsg && !photos) return;
 
+  const sendMessage = async (audioMsg = null, photos = null) => {
+    if (!input && !audioMsg && !photos) return;
+
+    const messageBody = {
+      content: input,
+      ChatId: ChatId,
+      isProvider,
+      photos,
+      timestamp: new Date().toISOString(),
+      audio: audioMsg,
+    };
     const messageBody = {
       content: input,
       ChatId: ChatId,
@@ -131,11 +144,26 @@ const Conversation = ({ route }) => {
     console.log(status);
     setAudioRecord(recording);
   };
+    if (permissionResponse.status !== "granted") await requestPermission();
+    const { recording, status } = await Audio.Recording.createAsync();
+    console.log(status);
+    setAudioRecord(recording);
+  };
 
   const stopRecording = async () => {
     if (!audioRecord) return;
     const { durationMillis } = await audioRecord.stopAndUnloadAsync();
+  const stopRecording = async () => {
+    if (!audioRecord) return;
+    const { durationMillis } = await audioRecord.stopAndUnloadAsync();
 
+    const uri = audioRecord.getURI();
+    const audioBlob = await fetch(uri).then((res) => res.blob());
+    const fr = new FileReader();
+    fr.onloadend = async () => {
+      await sendMessage({ data: fr.result, duration: durationMillis });
+      setAudioRecord(null);
+    };
     const uri = audioRecord.getURI();
     const audioBlob = await fetch(uri).then((res) => res.blob());
     const fr = new FileReader();
@@ -188,6 +216,8 @@ const Conversation = ({ route }) => {
 
 
 
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -208,6 +238,7 @@ const Conversation = ({ route }) => {
                 timestamp={item.timestamp}
                 audio={item.audio}
               />
+            ) : item?.photos?.length > 0 ? (
             ) : item?.photos?.length > 0 ? (
               <PhotoMessage photos={item.photos} />
             ) : (
@@ -294,9 +325,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginLeft: 10,
+    marginLeft: 10,
   },
   input: {
     flex: 1,
+    marginLeft: 10,
     marginLeft: 10,
   },
   voiceButton: {
@@ -305,6 +338,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 8,
+    backgroundColor: "#F5F4F8",
+  },
     backgroundColor: "#F5F4F8",
   },
 });

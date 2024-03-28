@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   View,
@@ -18,12 +19,12 @@ const { width, height } = Dimensions.get("screen");
 const Register = () => {
   const navigation = useNavigation();
   const [mydata, setMydata] = useState({
-    id:0,
+    id: 0,
     fullname: "",
     email_address: "",
     password: "",
   });
-console.log(mydata,"data");
+
   const SignUp = async () => {
     try {
       const response = await axios.post(
@@ -38,11 +39,28 @@ console.log(mydata,"data");
       Alert.alert("Error", "Something is wrong. Please try again.");
     }
   };
-  
 
   const handleSub = async () => {
+    // Validate fullname, email_address, and password
     if (!mydata.fullname || !mydata.email_address || !mydata.password) {
       Alert.alert("Error", "All fields are required");
+      return;
+    }
+
+    // Validate email address using regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(mydata.email_address)) {
+      Alert.alert("Error", "Please enter a valid email address");
+      return;
+    }
+
+    // Validate password using regex
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(mydata.password)) {
+      Alert.alert(
+        "Error",
+        "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one digit, and one special character."
+      );
       return;
     }
 
@@ -168,7 +186,7 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   registerButt: {
-    backgroundColor: "#05A4C8",
+    backgroundColor: "#25B4F8",
     width: width * 0.75,
     height: height * 0.05,
     justifyContent: "center",
@@ -190,7 +208,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   name: {
-    color: "#05A4C8",
+    color: "#25B4F8",
     fontSize: 30,
     fontWeight: "bold",
   },
