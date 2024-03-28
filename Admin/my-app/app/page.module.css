@@ -1,0 +1,156 @@
+/* styles.module.css */
+
+.mainContainer {
+  display:block;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 400px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  
+}
+.gaugesChart{
+  margin-left:0.5%;
+  margin-bottom:8% ;
+}
+.chartContainer {
+  display: flex;
+  flex-wrap: wrap; /* Allow charts to wrap to next line */
+  justify-content: space-between;
+  gap: 20px; 
+  margin-top: 20px;
+  margin-left: 5%; /* Adjusted left margin */
+}
+
+.chartItem {
+  width: calc(47% - 15px); /* Adjusted width for two items in a row with space between */
+  margin-bottom: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column; /* Added flex direction */
+}
+
+
+.gaugecontainer:hover
+.chartItem:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.chartLabel {
+  font-weight: bold;
+  font-size: 20px; /* Increased font size */
+  text-align: center; /* Centered text */
+}
+
+.chartDescription {
+  margin-top: 16px; /* Increased margin-top for space */
+  font-size: 16px; /* Increased font size */
+  color: #666;
+  text-align: justify; /* Justify text */
+  text-align: center; /* Centered text */
+}
+
+/* Styling for Gauges Chart */
+.gaugesLabel {
+  margin-left: 30%; /* Adjusted left margin */
+  font-weight: bold;
+  font-size: 20px; /* Increased font size */
+  margin-top: 15%;
+  margin-left:45% ;
+}
+.gaugesDescription {
+  margin-left: 8%; /* Adjusted left margin */
+  margin-bottom: 3%;
+}
+
+
+
+/* Styling for Stats Chart */
+.statsLabel {
+  font-weight: bold;
+  font-size: 20px; /* Increased font size */
+  margin-top: 4%;
+}
+
+.statsDescription {
+  margin-bottom: 3%;
+}
+
+.statsContainer {
+  background-color: #e8f5e9; /* Light green background color */
+  border: 2px solid #4caf50; /* Green border */
+  text-align: center; /* Centered text */
+}
+
+/* Styling for Stackbars Chart */
+.stackbarsLabel {
+  font-weight: bold;
+  font-size: 20px; /* Increased font size */
+  margin-top: 4%;
+}
+
+.stackbarsDescription {
+  margin-bottom: 3%;
+}
+
+.stackbarsContainer {
+  background-color: #e3f2fd; /* Light blue background color */
+  border: 2px solid #2196f3; /* Blue border */
+  text-align: center; /* Centered text */
+}
+
+/* Styling for Line Chart */
+.lineLabel {
+  font-weight: bold;
+  font-size: 20px; /* Increased font size */
+  margin-top: 4%;
+}
+.lineDescription {
+  margin-bottom: 3%;
+}
+
+.lineContainer {
+  background-color: #fff3e0; /* Light orange background color */
+  border: 2px solid #ff9800; /* Orange border */
+  text-align: center; /* Centered text */
+}
+
+/* Styling for Scatter Chart */
+.scatterLabel {
+  font-weight: bold;
+  font-size: 20px; /* Increased font size */
+  margin-top: 4%;
+}
+
+.scatterDescription {
+  margin-bottom: 3%;
+}
+
+.scatterContainer {
+  background-color: #f3e5f5; /* Light purple background color */
+  border: 2px solid #9c27b0; /* Purple border */
+  text-align: center; /* Centered text */
+}
+
+/* Styling for SparkLine Chart */
+.sparkLineLabel {
+  font-weight: bold;
+  font-size: 20px; /* Increased font size */
+  margin-top: 4%;
+}
+
+.sparkLineDescription {
+  margin-bottom: 3%;
+}
+
+
+.SparkContainer{
+  background-color: #efebe9; /* Light brown background color */
+  border: 2px solid #1c7ab1; /* Brown border */
+  text-align: center; /* Centered text */
+  margin-left: 8%;
+
+}
