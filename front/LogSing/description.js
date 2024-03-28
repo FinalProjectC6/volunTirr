@@ -40,7 +40,7 @@ const Description = () => {
   const info = async () => {
     try {
       const response = await axios.put(
-        `http:/192.168.43.39:3000/seeker/updateseeker/${userID}`,
+        `http:/192.168.100.93000/seeker/updateseeker/${userID}`,
         mydata
       ); // Include userID in the URL
       console.log("info updated:", response.data);

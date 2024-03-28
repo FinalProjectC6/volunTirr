@@ -22,7 +22,7 @@ export default function Chat({ navigation }) {
 
   useEffect(() => {
     fetch(
-      `http://192.168.43.39:3000/chat/getallchats/${userId}${
+      `http://192.168.100.9:3000/chat/getallchats/${userId}${
         isProvider ? "?isProvider=true" : ""
       }`
     )

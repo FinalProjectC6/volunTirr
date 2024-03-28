@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { AntDesign , MaterialCommunityIcons} from '@expo/vector-icons';
 import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -32,6 +31,10 @@ export default function NavBar(data) {
     navigation.navigate('Map');
     setActiveButton('Map');
   };
+  const add = () => {
+    navigation.navigate('PartOne');
+    setActiveButton('Map');
+  };
 
   return (
     <View style={styles.container}>
@@ -59,6 +62,11 @@ export default function NavBar(data) {
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'user' && styles.activeButton]}
           onPress={profileseeker}>
+          <AntDesign name="user" size={30} color={activeButton === 'user' ? '#2b5b9c' : '#87ceeb'} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.navButton, activeButton === 'user' && styles.activeButton]}
+          onPress={add}>
           <AntDesign name="user" size={30} color={activeButton === 'user' ? '#2b5b9c' : '#87ceeb'} />
         </TouchableOpacity>
       </View>

@@ -28,7 +28,7 @@ const Register = () => {
   const SignUp = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.43.39:3000/auth/signup",
+        "http://192.168.100.9:3000/auth/signup",
         mydata
       );
       const userID = response.data.id; 
