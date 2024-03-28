@@ -28,10 +28,10 @@ export default function HomePage() {
   
 
   useEffect(() => {
-    fetch('http://192.168.101.3:3000/opp/getallopportunities')
-      .then(response => response.json())
-      .then(data => setOpportunities(data))
-      .catch(error => console.error('Error fetching data:', error));
+    fetch("http://192.168.43.39:3000/opp/getallopportunities")
+      .then((response) => response.json())
+      .then((data) => setOpportunities(data))
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
 console.log(opportunities);
   const handleCategoryPress = (category) => {

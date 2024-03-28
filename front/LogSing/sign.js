@@ -28,12 +28,12 @@ const Register = () => {
   const SignUp = async () => {
     try {
       const response = await axios.post(
-        "http://192.168.101.3:3000/auth/signup",
+        "http://192.168.43.39:3000/auth/signup",
         mydata
       );
-      const userID = response.data.id;
-      console.log("Registration successful:", response.data, userID);
-      navigation.navigate("description", { userData: mydata, userID: userID });
+      const userID = response.data.id; 
+      console.log("Registration successful:",response.data ,userID );
+      navigation.navigate("description", { userData: mydata , userID: userID }); 
     } catch (error) {
       console.error("Registration failed:", error);
       Alert.alert("Error", "Something is wrong. Please try again.");

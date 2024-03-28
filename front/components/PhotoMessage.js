@@ -12,7 +12,7 @@ const PhotoMessage = (props) => {
         async function getPhotos() {
             for (const photo of photos) {
                 await fetch(
-                  `http://192.168.100.4:3000/chat/getfile/${photo.name}`
+                  `http://192.168.43.39:3000/chat/getfile/${photo.name}`
                 )
                   .then((res) => res.blob())
                   .then((res) => fr.readAsDataURL(res));

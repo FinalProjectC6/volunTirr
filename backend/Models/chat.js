@@ -41,7 +41,8 @@ module.exports = {
   getallmessage: async (ChatId) => {
     return await Messages.findAll({
       where: { ChatId: ChatId },
-      include: Audio,
+      include: [Audio, Photo],
+      order: [["timestamp", "ASC"]],
     });
   },
 

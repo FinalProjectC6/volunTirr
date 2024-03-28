@@ -69,7 +69,10 @@ const LoginPRO = () => {
 
   const login_me = async (formData) => {
     try {
-      const data = await axios.post(`http://192.168.101.3:3000/auth/login`, formData);
+      const data = await axios.post(
+        `http://192.168.43.39:3000/auth/login`,
+        formData
+      );
       return data.data;
     } catch (error) {
       console.log("error in login (service) => ", error);
