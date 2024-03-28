@@ -11,10 +11,10 @@ const AboutUsScreen = () => {
 
   const sendEmail = async () => {
     try {
-      await axios.post(`http://192.168.104.27:3000/send-email`, {
+      await axios.post(`http://192.168.100.4:3000/send-email`, {
         to: email,
         subject: subject,
-        text: description
+        text: description,
       });
       Alert.alert('Success', 'Email sent successfully');
     } catch (error) {

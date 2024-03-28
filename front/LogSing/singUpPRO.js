@@ -26,7 +26,10 @@ const SignupPro = () => {
 console.log(mydataa,"data");
   const SignUp = async () => {
     try {
-      const response = await axios.post("http://192.168.101.3:3000/auth/signupPro", mydataa);
+      const response = await axios.post(
+        "http://192.168.100.4:3000/auth/signupPro",
+        mydataa
+      );
       const userID = response.data.id; 
       console.log("Registration successful:",response.data ,userID );
       navigation.navigate("descriptionPro", { userData: mydataa , userID: userID }); 

@@ -20,6 +20,9 @@ import AudioMessage from "../components/AudioMessage";
 import { useRef } from "react";
 import PhotoMessage from "../components/PhotoMessage";
 import * as FileSystem from "expo-file-system";
+import * as Notifications from "expo-notifications";
+
+
 
 const Conversation = ({ route }) => {
   const [messages, setMessages] = useState([]);
@@ -28,53 +31,49 @@ const Conversation = ({ route }) => {
   const [audioRecord, setAudioRecord] = useState(null);
   const { id: ChatId, image, name } = route.params;
   const listRef = useRef();
-
+  // console.log("messages",messages);
   useEffect(() => {
     listRef.current.scrollToEnd({ params: { animated: true } });
   }, [messages]);
-  let role = "provider"; 
+  let role = "provider";
   if (Platform.OS === "android") role = "seeker";
 
   const isProvider = role === "provider";
 
-  
-const sendMessage = async (audioMsg = null, photos = null) => {
-  if (!input && !audioMsg && !photos) return;
+  const sendMessage = async (audioMsg = null, photos = null) => {
+    if (!input && !audioMsg && !photos) return;
 
-  const messageBody = {
-    content: input,
-    ChatId: ChatId,
-    isProvider,
-    photos,
-    timestamp: new Date().toISOString(),
-    audio: audioMsg,
-  };
+    const messageBody = {
+      content: input,
+      ChatId: ChatId,
+      isProvider,
+      photos,
+      timestamp: new Date().toISOString(),
+      audio: audioMsg,
+    };
 
-    try {
-      await fetch(`http://192.168.101.3:3000/chat/createmessage`, {
-        method: "POST",
-        body: JSON.stringify(messageBody),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      socket.emit("message", ChatId, messageBody);
-      addMessage(messageBody);
-      setInput("");
+    await fetch("http://192.168.43.39:3000/chat/createmessage", {
+      method: "POST",
+      body: JSON.stringify(messageBody),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     })
-    .catch((err) => console.log(err));
-};
-
-
+      .then(() => {
+        socket.emit("message", ChatId, messageBody);
+        addMessage(messageBody);
+        setInput("");
+      })
+      .catch((err) => console.log(err));
+  };
 
   const addMessage = (newMsg) => {
     setMessages((prevMessages) => [...prevMessages, newMsg]);
   };
 
   useEffect(() => {
-    fetch(`http://192.168.101.3:3000/chat/getallmessage/${ChatId}`)
+    fetch(`http://192.168.43.39:3000/chat/getallmessage/${ChatId}`)
       .then((result) => result.json())
       .then((result) => setMessages(result))
       .catch((err) => console.log(err));
@@ -107,7 +106,7 @@ const sendMessage = async (audioMsg = null, photos = null) => {
           "img" + new Date().getTime() + "." + fileName.split(".").at(-1);
 
         await FileSystem.uploadAsync(
-          "http://192.168.100.4:3000/chat/createfile",
+          "http://192.168.43.39:3000/chat/createfile",
           uri,
           {
             fieldName: photoName,
@@ -127,27 +126,67 @@ const sendMessage = async (audioMsg = null, photos = null) => {
   };
 
   const startRecording = async () => {
-        if (permissionResponse.status !== "granted")
-            await requestPermission();
-        const { recording, status } = await Audio.Recording.createAsync();
-        console.log(status)
-        setAudioRecord(recording)
+    if (permissionResponse.status !== "granted") await requestPermission();
+    const { recording, status } = await Audio.Recording.createAsync();
+    console.log(status);
+    setAudioRecord(recording);
+  };
+
+  const stopRecording = async () => {
+    if (!audioRecord) return;
+    const { durationMillis } = await audioRecord.stopAndUnloadAsync();
+
+    const uri = audioRecord.getURI();
+    const audioBlob = await fetch(uri).then((res) => res.blob());
+    const fr = new FileReader();
+    fr.onloadend = async () => {
+      await sendMessage({ data: fr.result, duration: durationMillis });
+      setAudioRecord(null);
+    };
+
+    fr.readAsDataURL(audioBlob);
+  };
+
+  useEffect(() => {
+    async function configNotifications() {
+      const { status } = await Notifications.requestPermissionsAsync();
+
+      if (status !== "granted") return;
+
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: false,
+        }),
+      });
+    }
+    function showNotification(msg) {
+      {
+        let notificationText = "";
+        const { content, audio, photos } = msg;
+        if (content) notificationText = name + " sent you a message.";
+        if (audio) notificationText = name + " sent you a vocal message.";
+        if (photos) notificationText = name + " sent you a photo.";
+
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: notificationText,
+            body: content || null,
+          },
+          trigger: null,
+        });
+      }
     }
 
-    const stopRecording = async () => {
-      if (!audioRecord) return;
-      const { durationMillis } = await audioRecord.stopAndUnloadAsync();
+    configNotifications();
+    socket.on("message", showNotification);
 
-      const uri = audioRecord.getURI();
-      const audioBlob = await fetch(uri).then((res) => res.blob());
-      const fr = new FileReader();
-      fr.onloadend = async () => {
-        await sendMessage({ data: fr.result, duration: durationMillis });
-        setAudioRecord(null);
-      };
+    return () => socket.off("message");
+  }, []);
 
-      fr.readAsDataURL(audioBlob);
-    };
+
+
 
   return (
     <View style={styles.container}>
@@ -169,7 +208,7 @@ const sendMessage = async (audioMsg = null, photos = null) => {
                 timestamp={item.timestamp}
                 audio={item.audio}
               />
-            ) : item.photos ? (
+            ) : item?.photos?.length > 0 ? (
               <PhotoMessage photos={item.photos} />
             ) : (
               <Message
@@ -254,11 +293,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF6584",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    marginLeft: 10, 
+    marginLeft: 10,
   },
   input: {
     flex: 1,
-    marginLeft: 10, 
+    marginLeft: 10,
   },
   voiceButton: {
     justifyContent: "center",
@@ -266,7 +305,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 12,
     paddingVertical: 8,
-    backgroundColor: "#F5F4F8",},
+    backgroundColor: "#F5F4F8",
+  },
 });
 
 export default Conversation;

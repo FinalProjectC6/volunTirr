@@ -36,7 +36,10 @@ console.log(userID);
 
   const info = async () => {
     try {
-      const response = await axios.put(`http://192.168.101.3:3000/provider/updateprovider/${userID}`, setMydataa); // Include userID in the URL
+      const response = await axios.put(
+        `http://192.168.43.39:3000/provider/updateprovider/${userID}`,
+        setMydataa
+      ); // Include userID in the URL
       console.log("info updated:", response.data);
       navigation.navigate("LoginPRO");
     } catch (error) {
