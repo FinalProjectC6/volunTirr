@@ -46,7 +46,7 @@ const Register = () => {
       Alert.alert("Error", "All fields are required");
       return;
     }
-
+//test
     // Validate email address using regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(mydata.email_address)) {
