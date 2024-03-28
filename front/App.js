@@ -13,6 +13,13 @@ import sign from "./LogSing/sign.js";
 import Login from "./LogSing/Login.js";
 import Getstarted from "./LogSing/Getstarted.js";
 import Forgpsw from "./LogSing/Forgpsw.js";
+import description from "./LogSing/description.js";
+import descriptionPro from "./LogSing/descriptionPro.js";
+import Choose from "./LogSing/Choose.js";
+import LoginPRO from "./LogSing/LoginPRO.js";
+import SignupPro from "./LogSing/singUpPRO.js";
+import GetstartedPRO from "./LogSing/GetstartedPRO.js";
+import Loading from "./LogSing/loading.js";
 
 import ChatItem from "./components/ChatItem.js";
 import DeleteChatModal from "./components/DeleteChatModal.js";
@@ -22,6 +29,8 @@ import Conversation from "./screens/Conversation";
 import Map from "./screens/Map";
 // import OpportunityDetailPage from "../front/componentsss/Oppdetails.jsx";
 // import OpportunitiesPage from "./componentsss/Alloppotunities.jsx";
+
+import constactus from './contactus/contactus.js'
 
 import FilteredOpp from "./yessine-components/filtredopp.jsx";
 import HomePage from "./yessine-components/homepage.jsx";
@@ -34,6 +43,10 @@ import PartThree from "./yessine-components/addopportunity/partthree.jsx"
 import PartFour from "./yessine-components/addopportunity/partfour.jsx";
 import Request from "./yessine-components/requests/request.jsx";
 import History from "./yessine-components/requests/history.jsx";
+
+
+import Payment from "./paymentt/payment.jsx";
+import packagee from "./paymentt/packagee.js"
 
 const Stack = createNativeStackNavigator();
 
@@ -60,7 +73,7 @@ export default function App() {
     return (
       <NavigationContainer>
         <Stack.Navigator>
-          {/* <Stack.Screen name="Landing" component={Landing} /> 
+           <Stack.Screen name="Landing" component={Landing} options={{ headerShown: false }} /> 
            <Stack.Screen
             name="sign"
             component={sign}
@@ -72,16 +85,59 @@ export default function App() {
             options={{ headerShown: false }}
           /> 
            <Stack.Screen
+            name="Choose"
+            component={Choose}
+            options={{ headerShown: false }}
+          /> 
+           <Stack.Screen
             name="Getstarted"
             component={Getstarted}
             options={{ headerShown: false }}
           /> 
+          <Stack.Screen
+            name="GetstartedPRO"
+            component={GetstartedPRO}
+            options={{ headerShown: false }}
+          /> 
+          <Stack.Screen
+            name="SignupPro"
+            component={SignupPro}
+            options={{ headerShown: false }}
+          />  
+          <Stack.Screen
+            name="LoginPRO"
+            component={LoginPRO}
+            options={{ headerShown: false }}
+          />                  
+           <Stack.Screen
+            name="description"
+            component={description}
+            options={{ headerShown: false }}
+          /> 
+          <Stack.Screen
+            name="descriptionPro"
+            component={descriptionPro}
+            options={{ headerShown: false }}
+          /> 
+
            <Stack.Screen
             name="Forgpsw"
             component={Forgpsw}
             options={{ headerShown: false }}
-            /> */}
-            {/* <Stack.Screen
+            /> 
+              <Stack.Screen
+            name="packagee"
+            component={packagee}
+            options={{ headerShown: false }}/> 
+             <Stack.Screen
+            name="payment"
+            component={Payment}
+            options={{ headerShown: false }}/>
+            <Stack.Screen
+            name="constactus"
+            component={constactus}
+            options={{ headerShown: false }}/>
+            <Stack.Screen
             name="Chat"
             component={Chat}
             options={{ headerShown: true }}
@@ -90,12 +146,12 @@ export default function App() {
             name="Conversation"
             component={Conversation}
             options={{ headerShown: true }}
-          />  */}
-          {/* <Stack.Screen
+          />
+           <Stack.Screen
             name="Map"
             component={Map}
-            options={{ headerShown: false }}
-          /> */}
+            options={{ headerShown: true }}
+          /> 
 
           {/* <Stack.Screen
             name="HomePage"
@@ -157,4 +213,3 @@ export default function App() {
       justifyContent: "center",
     },
   });
-

@@ -16,6 +16,13 @@ import Message from "../components/Message";
 import * as ImagePicker from "expo-image-picker";
 import { Audio } from "expo-av";
 import { FontAwesome } from "@expo/vector-icons";
+import AudioMessage from "../components/AudioMessage";
+import { useRef } from "react";
+import PhotoMessage from "../components/PhotoMessage";
+import * as FileSystem from "expo-file-system";
+import * as Notifications from "expo-notifications";
+
+
 
 const Conversation = ({ route }) => {
   const [messages, setMessages] = useState([]);
@@ -23,37 +30,55 @@ const Conversation = ({ route }) => {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [audioRecord, setAudioRecord] = useState(null);
   const { id: ChatId, image, name } = route.params;
-  let role = "provider"; 
+  const listRef = useRef();
+  // console.log("messages",messages);
+  // console.log("messages",messages);
+  useEffect(() => {
+    listRef.current.scrollToEnd({ params: { animated: true } });
+  }, [messages]);
+  let role = "provider";
+  let role = "provider";
   if (Platform.OS === "android") role = "seeker";
 
   const isProvider = role === "provider";
 
-  const sendMessage = async () => {
-    if (!input) return;
+  const sendMessage = async (audioMsg = null, photos = null) => {
+    if (!input && !audioMsg && !photos) return;
+
+  const sendMessage = async (audioMsg = null, photos = null) => {
+    if (!input && !audioMsg && !photos) return;
 
     const messageBody = {
       content: input,
       ChatId: ChatId,
-      timestamp: new Date().toGMTString(),
       isProvider,
+      photos,
+      timestamp: new Date().toISOString(),
+      audio: audioMsg,
+    };
+    const messageBody = {
+      content: input,
+      ChatId: ChatId,
+      isProvider,
+      photos,
+      timestamp: new Date().toISOString(),
+      audio: audioMsg,
     };
 
-    try {
-      await fetch(`http://192.168.100.12:3000/chat/createmessage`, {
-        method: "POST",
-        body: JSON.stringify(messageBody),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      });
-
-      socket.emit("message", ChatId, messageBody);
-      addMessage(messageBody);
-      setInput("");
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
+    await fetch("http://192.168.43.39:3000/chat/createmessage", {
+      method: "POST",
+      body: JSON.stringify(messageBody),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => {
+        socket.emit("message", ChatId, messageBody);
+        addMessage(messageBody);
+        setInput("");
+      })
+      .catch((err) => console.log(err));
   };
 
   const addMessage = (newMsg) => {
@@ -61,7 +86,7 @@ const Conversation = ({ route }) => {
   };
 
   useEffect(() => {
-    fetch(`http://192.168.100.12:3000/chat/getallmessage/${ChatId}`)
+    fetch(`http://192.168.43.39:3000/chat/getallmessage/${ChatId}`)
       .then((result) => result.json())
       .then((result) => setMessages(result))
       .catch((err) => console.log(err));
@@ -77,47 +102,122 @@ const Conversation = ({ route }) => {
   }, []);
 
   const takePhoto = async () => {
-    const pickerResult = await ImagePicker.launchCameraAsync();
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
+    });
 
-    if (pickerResult.cancelled === true) {
-      return;
+    if (result.canceled) return;
+
+    try {
+      const photoInfo = [];
+
+      for (const asset of result.assets) {
+        const { uri, mimeType, fileName } = asset;
+
+        const photoName =
+          "img" + new Date().getTime() + "." + fileName.split(".").at(-1);
+
+        await FileSystem.uploadAsync(
+          "http://192.168.43.39:3000/chat/createfile",
+          uri,
+          {
+            fieldName: photoName,
+            httpMethod: "POST",
+            uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+          }
+        );
+        console.log("photo", fileName, "uploaded");
+
+        photoInfo.push({ name: photoName, type: mimeType });
+      }
+
+      await sendMessage(null, photoInfo);
+    } catch (error) {
+      console.log(error);
     }
-
-    const selected = pickerResult.assets[0];
-    console.log("Selected Image:", selected);
   };
 
   const startRecording = async () => {
-        if (permissionResponse.status !== "granted")
-            await requestPermission();
-        const { recording, status } = await Audio.Recording.createAsync();
-        console.log(status)
-        setAudioRecord(recording)
+    if (permissionResponse.status !== "granted") await requestPermission();
+    const { recording, status } = await Audio.Recording.createAsync();
+    console.log(status);
+    setAudioRecord(recording);
+  };
+    if (permissionResponse.status !== "granted") await requestPermission();
+    const { recording, status } = await Audio.Recording.createAsync();
+    console.log(status);
+    setAudioRecord(recording);
+  };
+
+  const stopRecording = async () => {
+    if (!audioRecord) return;
+    const { durationMillis } = await audioRecord.stopAndUnloadAsync();
+  const stopRecording = async () => {
+    if (!audioRecord) return;
+    const { durationMillis } = await audioRecord.stopAndUnloadAsync();
+
+    const uri = audioRecord.getURI();
+    const audioBlob = await fetch(uri).then((res) => res.blob());
+    const fr = new FileReader();
+    fr.onloadend = async () => {
+      await sendMessage({ data: fr.result, duration: durationMillis });
+      setAudioRecord(null);
+    };
+    const uri = audioRecord.getURI();
+    const audioBlob = await fetch(uri).then((res) => res.blob());
+    const fr = new FileReader();
+    fr.onloadend = async () => {
+      await sendMessage({ data: fr.result, duration: durationMillis });
+      setAudioRecord(null);
+    };
+
+    fr.readAsDataURL(audioBlob);
+  };
+
+  useEffect(() => {
+    async function configNotifications() {
+      const { status } = await Notifications.requestPermissionsAsync();
+
+      if (status !== "granted") return;
+
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: false,
+        }),
+      });
+    }
+    function showNotification(msg) {
+      {
+        let notificationText = "";
+        const { content, audio, photos } = msg;
+        if (content) notificationText = name + " sent you a message.";
+        if (audio) notificationText = name + " sent you a vocal message.";
+        if (photos) notificationText = name + " sent you a photo.";
+
+        Notifications.scheduleNotificationAsync({
+          content: {
+            title: notificationText,
+            body: content || null,
+          },
+          trigger: null,
+        });
+      }
     }
 
-    const stopRecording = async () => {
-        if (!audioRecord) return;
-        await audioRecord.stopAndUnloadAsync();
+    configNotifications();
+    socket.on("message", showNotification);
 
-        const uri = audioRecord.getURI();
-        const audioBlob = await fetch(uri).then(res => res.blob())
-        console.log(audioBlob)
-        const fr = new FileReader()
-        fr.onloadend = async () =>
-          await fetch(`http://192.168.100.12:3000/chat/createaudio/11`, {
-            method: "POST",
-            body: fr.result,
-          });
-        fr.readAsDataURL(audioBlob)
+    return () => socket.off("message");
+  }, []);
 
-        const base64Data = await fetch(
-          `http://192.168.100.12:3000/chat/getaudio/11`
-        ).then((res) => res.json());
-        console.log(base64Data)
-        const { sound } = await Audio.Sound.createAsync({ uri: base64Data.data })
-        await sound.playAsync()
-        setAudioRecord(null)
-    }
+
+
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -128,16 +228,27 @@ const Conversation = ({ route }) => {
       </View>
       <View style={styles.chat}>
         <FlatList
+          ref={listRef}
           data={messages}
           keyExtractor={(item) => item.timestamp}
-          renderItem={({ item }) => (
-            <Message
-              content={item.content}
-              belongsToUser={item.isProvider === isProvider}
-              timestamp={item.timestamp}
-            />
-          )}
-          extraData={messages}
+          renderItem={({ item }) =>
+            item.audio ? (
+              <AudioMessage
+                belongsToUser={item.isProvider === isProvider}
+                timestamp={item.timestamp}
+                audio={item.audio}
+              />
+            ) : item?.photos?.length > 0 ? (
+            ) : item?.photos?.length > 0 ? (
+              <PhotoMessage photos={item.photos} />
+            ) : (
+              <Message
+                content={item.content}
+                belongsToUser={item.isProvider === isProvider}
+                timestamp={item.timestamp}
+              />
+            )
+          }
         />
       </View>
       <View style={styles.inputContainer}>
@@ -146,7 +257,7 @@ const Conversation = ({ route }) => {
           onLongPress={startRecording}
           onPressOut={stopRecording}
         >
-          <FontAwesome name="microphone" size={24} color="#53587A" />
+          <FontAwesome name="microphone" size={28} color="#FF6584" />
         </Pressable>
         <TextInput
           value={input}
@@ -156,9 +267,9 @@ const Conversation = ({ route }) => {
           placeholderTextColor="#A1A5C1"
         />
         <TouchableOpacity onPress={takePhoto}>
-          <Feather name="camera" size={24} color="black" />
+          <Feather name="image" size={28} color="black" />
         </TouchableOpacity>
-        <Pressable style={styles.send} onPress={sendMessage}>
+        <Pressable style={styles.send} onPress={() => sendMessage()}>
           <Feather name="send" size={16} color="white" />
         </Pressable>
       </View>
@@ -213,17 +324,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF6584",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    marginLeft: 10, // Add some space between input and send button
+    marginLeft: 10,
+    marginLeft: 10,
   },
   input: {
     flex: 1,
-    marginRight: 10, // Add some space between input and camera button
+    marginLeft: 10,
+    marginLeft: 10,
   },
   voiceButton: {
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 24,
-    aspectRatio: "1/1",
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: "#F5F4F8",
+  },
+    backgroundColor: "#F5F4F8",
   },
 });
 

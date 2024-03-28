@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Text, TouchableOpacity, Image, TextInput, StyleSheet, Dimensions } from 'react-native';
 import { AntDesign, Feather } from '@expo/vector-icons'; 
 import NavBar from './nav.jsx';
+import { useRoute } from '@react-navigation/native'; // Import useRoute
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -18,6 +20,12 @@ export default function HomePage() {
 
   const [activeCategory, setActiveCategory] = useState(null);
   const [opportunities, setOpportunities] = useState([]);
+  const route = useRoute(); // Use useRoute hook to access route params
+
+  const { data } = route.params; // Access passed data object
+  
+  console.log(data, "home data");
+  
 
   useEffect(() => {
     fetch('http://192.168.100.2:3000/opp/getallopportunities', { timeout: 10000 })
@@ -164,7 +172,7 @@ export default function HomePage() {
         </View>
       </ScrollView>
       
-     
+      <NavBar data={data}/>
     </View>
   );
 }

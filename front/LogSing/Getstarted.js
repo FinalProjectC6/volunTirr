@@ -37,11 +37,11 @@ const Getstarted = () => {
         </View>
       </View>
       <View style={styles.lay} >
-      <Text style={styles.title}>VOLUNTIRLY</Text>
+      <Text style={styles.title}>HELLO SEEKER</Text>
       <Text style={styles.subtitle}>
-        All while making an impact, sharpening your skills, challenging
-        yourself, and becoming a better human being.
-      </Text>
+  Welcome again ! As a seeker, you have the opportunity to embark on meaningful journeys while making a positive impact. Explore new places, challenge yourself, and grow as you exchange your skills for valuable experiences. Join us in creating a better world
+</Text>
+
       <View style={styles.buttP} >
       <TouchableOpacity style={styles.registerButt} onPress={goToSignUp}>
         <Text style={styles.buttText}>Sign Up</Text>
@@ -96,14 +96,17 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 76,
     letterSpacing: 5,
-    textAlign: 'left',
-    color: '#000000', // Adjust color as needed
+    textAlign: 'center',
+    color: '#000000', 
+    paddingHorizontal: 15 // Adjust color as needed
   },
   subtitle: {
     color: "#969AA8",
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "bold",
+    letterSpacing:1,
     textAlign: "center",
+    paddingHorizontal: 15
   },
   registerButt: {
     backgroundColor: "#05A4C8",
