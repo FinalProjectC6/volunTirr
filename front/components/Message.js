@@ -16,15 +16,15 @@ const Message = (props) => {
                 textAlign: belongsToUser ? "left" : "right"
             }}>
                 <Text style={{
-                    fontSize: 12,
-                    lineHeight: 20,
+                    fontSize: 20,
+                    lineHeight: 22,
                     color: belongsToUser ? "white" : "#53587A"
                 }}>
                     {content}
                 </Text>
             </View>
             <View style={{ justifyContent: "flex-end" }}>
-                <Text style={{ fontSize: 8 }}>
+                <Text style={{ fontSize: 10 }}>
                     {timestamp}
                 </Text>
             </View>
@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
     },
     messageBox: {
         padding: 16,
-        maxWidth: "75%",
+        maxWidth: "85%",
         borderRadius: 12,
         backgroundColor: "#25B4F8",
-        color: "white",
+        color: "white"
     },
 })

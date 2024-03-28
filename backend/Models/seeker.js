@@ -5,8 +5,8 @@ const {Seekers}=require('../database/index')
 const getallseekers=()=>{
     return Seekers.findAll()
 }
-const createseeker=(data)=>{
-    Seekers.create(data)
+const   createseeker=(data)=>{
+   return  Seekers.create(data)
 }
 const updateseeker = (seekerid, body) => {
     return Seekers.update(body, { where: { id: seekerid } });

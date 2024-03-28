@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Text, TouchableOpacity, Image, TextInput, StyleSheet, Dimensions } from 'react-native';
 import { AntDesign, Feather } from '@expo/vector-icons'; 
 import NavBar from './nav.jsx';
+import { useRoute } from '@react-navigation/native'; // Import useRoute
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -18,14 +20,20 @@ export default function HomePage() {
 
   const [activeCategory, setActiveCategory] = useState(null);
   const [opportunities, setOpportunities] = useState([]);
+  const route = useRoute(); // Use useRoute hook to access route params
+
+  const { data } = route.params; // Access passed data object
+  
+  console.log(data, "home data");
+  
 
   useEffect(() => {
-    fetch('http://192.168.43.75:3000/opp/getallopportunities')
-      .then(response => response.json())
-      .then(data => setOpportunities(data))
-      .catch(error => console.error('Error fetching data:', error));
+    fetch("http://192.168.43.39:3000/opp/getallopportunities")
+      .then((response) => response.json())
+      .then((data) => setOpportunities(data))
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
-
+console.log(opportunities);
   const handleCategoryPress = (category) => {
     setActiveCategory(category);
   };
@@ -86,8 +94,7 @@ export default function HomePage() {
             </TouchableOpacity>
           </ScrollView>
         </View>
-        {/* Rest of your content */}
- 
+        
         {/* Title: Enchanting Tunisia */}
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Enchanting{' '}
@@ -164,7 +171,7 @@ export default function HomePage() {
         </View>
       </ScrollView>
       
-      <NavBar />
+      <NavBar data={data}/>
     </View>
   );
 }
@@ -208,10 +215,10 @@ const styles = StyleSheet.create({
     top: -30,
   },
   stickyy: {
-    backgroundColor: '#fff', // Adjust background color as needed
+    backgroundColor: '#fff', 
     position: 'sticky',
     top: 0,
-    zIndex: 1000, // ensure it's above other content
+    zIndex: 1000, 
   },
   welcomeMessage: {
     fontSize: 24,
@@ -379,8 +386,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     backgroundColor: '#fff',
-    elevation: 3, // Add elevation for shadow on Android
-    shadowColor: '#000', // Add shadow properties for iOS
+    elevation: 3,
+    shadowColor: '#000', 
     shadowOffset: {
       width: 0,
       height: 2,

@@ -11,6 +11,11 @@ const generateToken = (id, fullname) => {
     return jwt.sign({ id, fullname }, "process.env.ACCESS_TOKEN_SECRET", { expiresIn: expiresIn });
   };
 
+
+
+
+
+  
  const Register = async (req, res) => {
    const { fullname,  email_address, password } = req.body;
    console.log('name',fullname);
@@ -18,6 +23,7 @@ const generateToken = (id, fullname) => {
      const hashedPassword = await bcrypt.hash(password, 10);
   
      const newUser = {
+      
        fullname,
         email_address,
         image:'https://cdn-icons-png.flaticon.com/512/149/149071.png',
@@ -29,6 +35,26 @@ const generateToken = (id, fullname) => {
       res.status(500).json({ error: 'Error' });
     }
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const Login = async(req, res) => {
     const{email_address,password}=req.body;

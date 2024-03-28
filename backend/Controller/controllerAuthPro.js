@@ -30,6 +30,16 @@ const generateToken = (id, fullname) => {
     }
   };
 
+
+
+
+
+
+
+
+
+  
+
   const LoginPro = async(req, res) => {
     const{email_address,password}=req.body;
     try {

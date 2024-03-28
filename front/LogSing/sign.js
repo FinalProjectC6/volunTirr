@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   View,
@@ -6,72 +7,70 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  Alert
+  Alert,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { TextInput as PaperTextInput } from "react-native-paper";
-import axios from "axios"
-
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("screen");
 
 const Register = () => {
-
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
+  const navigation = useNavigation();
+  const [mydata, setMydata] = useState({
+    id: 0,
+    fullname: "",
+    email_address: "",
     password: "",
   });
 
-
-  const SignUp = async (formData) => {
+  const SignUp = async () => {
     try {
-      const response = await fetch('http://localhost:3000/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      return data;
+      const response = await axios.post(
+        "http://192.168.43.39:3000/auth/signup",
+        mydata
+      );
+      const userID = response.data.id; 
+      console.log("Registration successful:",response.data ,userID );
+      navigation.navigate("description", { userData: mydata , userID: userID }); 
     } catch (error) {
-      console.error('Error in register (service) => ', error);
-      throw error;
+      console.error("Registration failed:", error);
+      Alert.alert("Error", "Something is wrong. Please try again.");
     }
   };
 
-
-
-  // const SignUp = async (formData) => {
-  //   try {
-  //     const response = await axios.post('http://localhost:3000/auth/signup', formData);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Error in register (service) => ', error);
-  //     throw error;
-  //   }
-  // };
-  
-
-  const handleSubmit = async () => {
-    if (!formData.fullName || !formData.email || !formData.password) {
+  const handleSub = async () => {
+    // Validate fullname, email_address, and password
+    if (!mydata.fullname || !mydata.email_address || !mydata.password) {
       Alert.alert("Error", "All fields are required");
       return;
     }
 
+    // Validate email address using regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(mydata.email_address)) {
+      Alert.alert("Error", "Please enter a valid email address");
+      return;
+    }
+
+    // Validate password using regex
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(mydata.password)) {
+      Alert.alert(
+        "Error",
+        "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one digit, and one special character."
+      );
+      return;
+    }
+
     try {
-      const response = await SignUp(formData);
-      console.log("Registration successful:", response);
+      await SignUp();
     } catch (error) {
       console.error("Registration failed:", error);
-      Alert.alert("Error", "Registration failed. Please try again.");
+      Alert.alert("Error", "Something is wrong. Please try again.");
     }
   };
-
-
-
-
 
   const [visible, setVisible] = useState(true);
 
@@ -85,7 +84,9 @@ const Register = () => {
         <TouchableOpacity style={styles.userImage}>
           <Image
             style={styles.userImageStyle}
-            source={{uri:("https://cdn.discordapp.com/attachments/1211991148243984385/1212773709677461534/Screenshot_2024-02-29_154927.png?ex=65fc4908&is=65e9d408&hm=0c6982dbf3b6a235a2d8c786a056a4ca8aae7f33c3e34fb4e29652036f82255a&")}} // Provide the path to your image
+            source={{
+              uri: "https://cdn.discordapp.com/attachments/1211991148243984385/1212773709677461534/Screenshot_2024-02-29_154927.png?ex=65fc4908&is=65e9d408&hm=0c6982dbf3b6a235a2d8c786a056a4ca8aae7f33c3e34fb4e29652036f82255a&",
+            }}
           />
         </TouchableOpacity>
       </View>
@@ -93,35 +94,33 @@ const Register = () => {
 
       <View style={styles.allInput}>
         <Text style={styles.name}>Create your account</Text>
-        <Text style={styles.weltext}>
-          ___Create account for an amazing experience___
-        </Text>
+        <Text style={styles.weltext}>___Create account for an amazing experience___</Text>
 
         <View style={styles.nameInput}>
           <PaperTextInput
             style={styles.input}
-            placeholder=" Your First Name"
-            onChangeText={(text) => setFormData({ ...formData, fullName: text })}
+            placeholder=" Your Full Name"
+            onChangeText={(text) => setMydata({ ...mydata, fullname: text })}
           />
         </View>
         <PaperTextInput
-         style={styles.input}
-         placeholder=" Enter Your Email"
-         onChangeText={(text) => setFormData({ ...formData, email: text })}
-          />
+          style={styles.input}
+          placeholder=" Enter Your Email"
+          onChangeText={(text) => setMydata({ ...mydata, email_address: text })}
+        />
         <PaperTextInput
           style={styles.input}
           placeholder=" Enter Your Password"
           secureTextEntry={visible}
-          onChangeText={(text) => setFormData({ ...formData, password: text })}
+          onChangeText={(text) => setMydata({ ...mydata, password: text })}
           right={
-            <PaperTextInput.Icon               
+            <PaperTextInput.Icon
               onPress={() => setVisible(!visible)}
               icon={visible ? "eye-off" : "eye"}
             />
           }
         />
-        <TouchableOpacity style={styles.registerButt}onPress={handleSubmit}>
+        <TouchableOpacity style={styles.registerButt} onPress={handleSub}>
           <Text style={styles.buttText}>Register</Text>
         </TouchableOpacity>
         <View style={styles.design2}></View>
@@ -187,7 +186,7 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   registerButt: {
-    backgroundColor: "#05A4C8",
+    backgroundColor: "#25B4F8",
     width: width * 0.75,
     height: height * 0.05,
     justifyContent: "center",
@@ -209,7 +208,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   name: {
-    color: "#05A4C8",
+    color: "#25B4F8",
     fontSize: 30,
     fontWeight: "bold",
   },
