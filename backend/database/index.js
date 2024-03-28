@@ -293,6 +293,9 @@ const Packages = sequelize.define('Packages', {
   validity: {
     type: DataTypes.DATEONLY,
     allowNull: false
+  },  image1: {
+    type: DataTypes.TEXT,
+    allowNull: true
   }
 },
   { freezeTableName: true, timestamps: false }
@@ -439,7 +442,7 @@ Messages.belongsTo(Audio);
 Messages.hasMany(Photo, { onDelete: "CASCADE" });
 Photo.belongsTo(Messages);
 
-sequelize.sync({ alter: true })
+sequelize.sync({ alter: false })
   .then(() => {
     console.log('All models were synchronized successfully.');
   })
