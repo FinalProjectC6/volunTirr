@@ -1,27 +1,37 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Alert } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons'; 
-import NavBar from './nav';
+import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 
 const ProfileSeeker = () => {
-  const [name, setName] = useState('John Doe');
-  const [email, setEmail] = useState('john.doe@example.com');
+  const [name, setName] = useState('jhon');
+  const [email, setEmail] = useState('jhon.doe@example.com');
   const [age, setAge] = useState('30');
   const [gender, setGender] = useState('Male');
   const [phone, setPhone] = useState('123-456-7890');
   const [profilePicture, setProfilePicture] = useState("https://fr.web.img4.acsta.net/pictures/17/06/14/13/48/489688.jpg");
   const navigation = useNavigation();
 
-  const handleEditProfilePicture = () => {
-   
-    console.log('Edit profile picture pressed');
+  const handleEditProfilePicture = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setProfilePicture(result.uri);
+    } else {
+      Alert.alert('Image picker', 'You have canceled image picking');
+    }
   };
+
   const edit = () => {
-   navigation.navigate('EditProfileSeeker')
-   
+    navigation.navigate('EditProfileSeeker');
   };
 
   return (
@@ -66,7 +76,6 @@ const ProfileSeeker = () => {
           </View>
         </View>
       </View>
-      <NavBar />
     </View>
   );
 };
@@ -78,22 +87,22 @@ const styles = StyleSheet.create({
   },
   settingsIconContainer: {
     position: 'absolute',
-    top: 20,
+    top: 40,
     right: 20,
     zIndex: 1,
   },
   circleBackground: {
-    width: windowWidth * 0.8,
-    height: windowWidth * 0.8,
-    borderRadius: (windowWidth * 0.6) / 2,
+    width: windowWidth * 0.9,
+    height: windowWidth * 0.9,
+    borderRadius: (windowWidth * 0.45),
     backgroundColor: 'rgba(47, 128, 237, 0.3)', 
     position: 'absolute',
-    top: -windowWidth * 0.4,
-    left: -windowWidth * 0.4,
+    top: -windowWidth * 0.45,
+    left: -windowWidth * 0.45,
   },
   content: {
     flex: 1,
-    paddingTop: 60, 
+    paddingTop: 120, 
     paddingHorizontal: 20,
   },
   profileContainer: {
@@ -101,32 +110,32 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   profilePictureContainer: {
-    width: 120,
-    height: 120,
+    width: 160,
+    height: 160,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-    borderRadius: 60, 
+    borderRadius: 80, 
   },
   profilePicture: {
-    width: 110,
-    height: 110,
-    borderRadius: 60, 
+    width: 150,
+    height: 150,
+    borderRadius: 75, 
   },
   editProfilePicture: {
     position: 'absolute',
     backgroundColor: '#0F4C75',
-    borderRadius: 15,
-    padding: 5,
-    right: 70,
-    top: 90, 
+    borderRadius: 20,
+    padding: 10,
+    right: 90,
+    top: 120, 
     zIndex: 1,
   },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: 20,
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: {
@@ -135,17 +144,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    marginBottom: 10,
+    paddingVertical: 18,
+    paddingHorizontal: 30,
+    marginBottom: 20,
     width: '100%',
   },
   icon: {
-    marginRight: 10,
+    marginRight: 20,
   },
   cardText: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 18,
     color: '#333333',
   },
 });

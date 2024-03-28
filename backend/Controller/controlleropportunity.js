@@ -35,9 +35,9 @@ res.json(data)
 createopp:async(req,res)=>{
     try{
 let {title,logistics,description,category,start,end,price,numberofseekers,location,image1,image2,image3,image4,
-planning,providers_id}=req.body
+planning,ProviderId}=req.body
 let body={title,logistics,description,category,start,end,price,numberofseekers,location,image1,image2,image3,image4,
-    planning,providers_id}
+    planning,ProviderId}
      opportunities.createopportunity(body)
      res.send('opp created')
     }

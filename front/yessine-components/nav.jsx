@@ -1,28 +1,23 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, Platform, Text } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { View, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
-
 
 export default function NavBar() {
   const [activeButton, setActiveButton] = useState('');
   const navigation = useNavigation();
 
-
   const chat = () => {
-    navigation.navigate('Chat')
-   
+    navigation.navigate('Chat');
   };
+
   const home = () => {
-    navigation.navigate('HomePage')
-   
+    navigation.navigate('HomePage');
   };
 
   const profileseeker = () => {
-    navigation.navigate('ProfileSeeker')
-  
+    navigation.navigate('ProfileSeeker');
   };
-
 
   return (
     <View style={styles.container}>
@@ -30,22 +25,21 @@ export default function NavBar() {
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'home' && styles.activeButton]}
           onPress={home}>
-          <AntDesign name="home" size={30} color={activeButton === 'home' ? '#2b5b9c' : '#87ceeb'} />
+          <Ionicons name="home-outline" size={30} color={activeButton === 'home' ? '#0A3C57' : '#87CEEB'} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.navButton, activeButton === 'chat' && styles.activeButton]} // Update activeButton condition
-           onPress={chat} >
-          <AntDesign name="message1" size={30} color={activeButton === 'chat' ? '#2b5b9c' : '#87ceeb'} />
+          style={[styles.navButton, activeButton === 'chat' && styles.activeButton]} 
+          onPress={chat}>
+          <Ionicons name="chatbox-outline" size={30} color={activeButton === 'chat' ? '#0A3C57' : '#87CEEB'} />
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.navButton, activeButton === 'heart' && styles.activeButton]}
-          onPress={() => setActiveButton('heart')}>
-          <AntDesign name="hearto" size={30} color={activeButton === 'heart' ? '#2b5b9c' : '#87ceeb'} />
+          style={[styles.navButton, activeButton === 'heart' && styles.activeButton]}>
+          <Ionicons name="heart-outline" size={30} color={activeButton === 'heart' ? '#0A3C57' : '#87CEEB'} />
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.navButton, activeButton === 'user' && styles.activeButton]}
-          onPress={profileseeker }>
-          <AntDesign name="user" size={30} color={activeButton === 'user' ? '#2b5b9c' : '#87ceeb'} />
+          onPress={profileseeker}>
+          <Ionicons name="person-outline" size={30} color={activeButton === 'user' ? '#0A3C57' : '#87CEEB'} />
         </TouchableOpacity>
       </View>
     </View>
@@ -84,6 +78,6 @@ const styles = StyleSheet.create({
   },
   activeButton: {
     borderBottomWidth: 2,
-    borderBottomColor: '#2b5b9c',
+    borderBottomColor: '#0A3C57',
   },
 });
